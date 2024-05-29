@@ -10,10 +10,9 @@ List all the technology we use to build the system in this project
 
 - Kotlin
 - Jetpack Compose
-- Dagger Hilt
-- Retrofit
-- JSON Converter
-- Coil
+- MVVM Architecture
+- Navigation Components
+- Dependency Injection with Dagger Hilt
 - Google Maps SDK
 
 ## Installation
