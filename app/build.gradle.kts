@@ -153,6 +153,15 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.2.0")
     // noinspection UseTomlInstead
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+    // Google maps for compose
+    implementation("com.google.maps.android:maps-compose:2.8.0")
+
+    // KTX for the Maps SDK for Android
+    implementation("com.google.maps.android:maps-ktx:3.2.1")
+
+    // KTX for the Maps SDK for Android Utility Library
+    implementation("com.google.maps.android:maps-utils-ktx:3.2.1")
 }
 
 kapt {
