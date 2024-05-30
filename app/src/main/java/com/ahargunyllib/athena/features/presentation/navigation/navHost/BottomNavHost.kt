@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -38,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeScreen
+import com.ahargunyllib.athena.features.presentation.screen.map.MapScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
 
 @Composable
@@ -74,6 +76,15 @@ fun BottomNavHost(
 
             composable(BottomNavObj.ProfileNavObj.route) {
                 ProfileScreen(
+                    parentController = parentController,
+                    bottomNavController = bottomNavController
+                ) {
+                    selected.value = it
+                }
+            }
+
+            composable(BottomNavObj.MapNavObj.route) {
+                MapScreen(
                     parentController = parentController,
                     bottomNavController = bottomNavController
                 ) {
@@ -118,6 +129,15 @@ fun BottomNavBar(
                     onSelected(1)
                 },
                 text = "Profile"
+            )
+            BottomNavItem(
+                icon = Icons.Outlined.Map,
+                selected = selected == 2,
+                onClick = {
+                    bottomController.navigate(BottomNavObj.MapNavObj.route)
+                    onSelected(2)
+                },
+                text = "Map"
             )
         }
     }
