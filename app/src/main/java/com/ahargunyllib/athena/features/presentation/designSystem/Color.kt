@@ -1,4 +1,4 @@
-package com.ahargunyllib.athena.ui.theme
+package com.ahargunyllib.athena.features.presentation.designSystem
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.ahargunyllib.athena.ui.theme
+package com.ahargunyllib.athena.features.presentation.designSystem
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
