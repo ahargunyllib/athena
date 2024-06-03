@@ -165,10 +165,6 @@ dependencies {
     // KTX for the Maps SDK for Android Utility Library
     // noinspection UseTomlInstead
     implementation("com.google.maps.android:maps-utils-ktx:3.2.1")
-
-    // Google Fonts
-    // noinspection UseTomlInstead
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.7")
 }
 
 kapt {
