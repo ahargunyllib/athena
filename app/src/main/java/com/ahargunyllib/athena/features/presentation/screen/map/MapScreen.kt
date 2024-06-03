@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.map
 
+<<<<<<< HEAD
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
@@ -25,7 +26,6 @@ import androidx.navigation.compose.rememberNavController
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
-import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun MapScreen(
@@ -80,7 +80,7 @@ fun MapScreen(
                 .reversed()
                 .forEach { permission ->
                     PermissionDialog(
-                        permissionTextProvider  = CoarseLocationPermissionTextProvider(),
+                        permissionTextProvider = CoarseLocationPermissionTextProvider(),
                         isPermanentlyDeclined = !ActivityCompat.shouldShowRequestPermissionRationale(
                             LocalContext.current as Activity,
                             permission
