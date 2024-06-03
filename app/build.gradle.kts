@@ -75,9 +75,9 @@ dependencies {
 
     // Architectural Components
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
 
     // Hilt
     // noinspection UseTomlInstead
@@ -107,12 +107,12 @@ dependencies {
 
     // Coroutines Lifecycle Scopes
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.1")
     // LiveData
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.1")
 
     // Navigation Component
     // noinspection UseTomlInstead
@@ -150,18 +150,25 @@ dependencies {
 
     // Google Maps Location Services
     // noinspection UseTomlInstead
-    implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     // noinspection UseTomlInstead
     implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     // Google maps for compose
+    // noinspection UseTomlInstead
     implementation("com.google.maps.android:maps-compose:2.8.0")
 
     // KTX for the Maps SDK for Android
+    // noinspection UseTomlInstead
     implementation("com.google.maps.android:maps-ktx:3.2.1")
 
     // KTX for the Maps SDK for Android Utility Library
+    // noinspection UseTomlInstead
     implementation("com.google.maps.android:maps-utils-ktx:3.2.1")
+
+    // Google Fonts
+    // noinspection UseTomlInstead
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.7")
 }
 
 kapt {

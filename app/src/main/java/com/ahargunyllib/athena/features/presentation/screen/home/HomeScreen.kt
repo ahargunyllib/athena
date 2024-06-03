@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.ahargunyllib.athena.features.presentation.navigation.navHost.BottomNavBar
 
 @Composable
 fun HomeScreen(

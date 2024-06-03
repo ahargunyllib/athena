@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.presentation.screen.map
 
-<<<<<<< HEAD
 import android.Manifest
 import android.app.Activity
 import android.content.Intent

@@ -19,6 +19,8 @@ import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,11 +55,31 @@ fun BottomNavHost(
 
     Scaffold(
         bottomBar = {
-            BottomNavBar(
-                bottomController = bottomNavController,
-                selected = selected.value
-            ) {
-                selected.value = it
+            NavigationBar {
+                NavigationBarItem(
+                    icon = { Icon(Icons.Outlined.Home, contentDescription = "Home") },
+                    selected = selected.intValue == 0,
+                    onClick = {
+                        bottomNavController.navigate(BottomNavObj.HomeNavObj.route)
+                        selected.intValue = 0
+                    },
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Outlined.Person, contentDescription = "Profile") },
+                    selected = selected.intValue == 1,
+                    onClick = {
+                        bottomNavController.navigate(BottomNavObj.ProfileNavObj.route)
+                        selected.intValue = 1
+                    },
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Outlined.Map, contentDescription = "Map") },
+                    selected = selected.intValue == 2,
+                    onClick = {
+                        bottomNavController.navigate(BottomNavObj.MapNavObj.route)
+                        selected.intValue = 2
+                    },
+                )
             }
         }
     ) { it ->
@@ -92,104 +114,5 @@ fun BottomNavHost(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun BottomNavBar(
-    bottomController: NavController = rememberNavController(),
-    selected: Int = 0,
-    onSelected: (Int) -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BottomNavItem(
-                icon = Icons.Outlined.Home,
-                selected = selected == 0,
-                onClick = {
-                    bottomController.navigate(BottomNavObj.HomeNavObj.route)
-                    onSelected(0)
-                },
-                text = "Home"
-            )
-            BottomNavItem(
-                icon = Icons.Outlined.Person,
-                selected = selected == 1,
-                onClick = {
-                    bottomController.navigate(BottomNavObj.ProfileNavObj.route)
-                    onSelected(1)
-                },
-                text = "Profile"
-            )
-            BottomNavItem(
-                icon = Icons.Outlined.Map,
-                selected = selected == 2,
-                onClick = {
-                    bottomController.navigate(BottomNavObj.MapNavObj.route)
-                    onSelected(2)
-                },
-                text = "Map"
-            )
-        }
-    }
-}
-
-@Composable
-fun BottomNavItem(icon: ImageVector, selected: Boolean, onClick: () -> Unit, text: String) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable {
-                onClick()
-            },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Card(
-            modifier = Modifier
-                .background(
-                    color = if (selected) {
-                        Color.LightGray
-                    } else {
-                        Color.Transparent
-                    },
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = "Icon",
-                modifier = Modifier
-                    .size(24.dp)
-                    .background(
-                        color = if (selected) {
-                            Color.LightGray
-                        } else {
-                            Color.Transparent
-                        },
-                        shape = RoundedCornerShape(8.dp)
-                    )
-            )
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = text,
-            color = Color.Black,
-            fontWeight = if (selected) {
-                FontWeight.Bold
-            } else {
-                FontWeight.Normal
-            }
-        )
     }
 }

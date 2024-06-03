@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.ahargunyllib.athena.features.presentation.designSystem.fontFamily
 
 @Composable
 fun ProfileScreen(
@@ -25,7 +26,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Profile Screen")
+            Text(text = "Profile Screen", fontFamily = fontFamily)
         }
     }
 }
