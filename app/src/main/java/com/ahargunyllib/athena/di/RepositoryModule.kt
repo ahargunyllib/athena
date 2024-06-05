@@ -1,6 +1,8 @@
 package com.ahargunyllib.athena.di
 
+import com.ahargunyllib.athena.features.data.repository.AuthRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.UserRepositoryImpl
+import com.ahargunyllib.athena.features.domain.repository.AuthRepository
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -14,4 +16,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 }

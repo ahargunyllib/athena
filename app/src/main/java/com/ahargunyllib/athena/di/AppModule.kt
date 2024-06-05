@@ -29,13 +29,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideUserDB(@ApplicationContext context: Context): UserDatabase {
-        return Room.databaseBuilder(
+    fun provideUserDB(@ApplicationContext context: Context): UserDatabase =
+        Room.databaseBuilder(
             context,
             UserDatabase::class.java,
             Constants.USER_DB_NAME
         ).fallbackToDestructiveMigration().build()
-    }
+
 
     @Singleton
     @Provides
