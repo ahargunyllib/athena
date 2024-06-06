@@ -41,15 +41,6 @@ fun SplashScreen1(
             ){
                 Text(text = "Go to Login")
             }
-            Button(
-                onClick = {
-                    parentController.navigate(
-                        ParentNavObj.BottomNavObj.route
-                    )
-                },
-            ){
-                Text(text = "Go to Home")
-            }
         }
     }
 }
