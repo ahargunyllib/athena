@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -84,7 +85,7 @@ fun ChatScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MainLight)
-            .padding(horizontal = 20.dp, vertical = 32.dp),
+            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 92.dp),
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -107,7 +108,9 @@ fun ChatScreen(
                         painter = painterResource(id = R.drawable.dummy_avatar),
                         contentDescription = "avatar",
                         contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(32.dp).clickable {  }
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable { }
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
@@ -185,85 +188,79 @@ fun ChatScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // List chat room
-            Card(
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {  }
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
+            LazyColumn {
+                items(10) {
+                    Card(
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { }
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.dummy_avatar),
-                            contentDescription = "avatar",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(32.dp)
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column(
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start,
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .fillMaxWidth()
                         ) {
-                            Text(
-                                text = "Username",
-                                style = Typography.labelLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = Black
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Recent Message",
-                                style = Typography.bodySmall,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Gray
-                            )
+                            Row(
+                                horizontalArrangement = Arrangement.Start,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.dummy_avatar),
+                                    contentDescription = "avatar",
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Column(
+                                    verticalArrangement = Arrangement.SpaceBetween,
+                                    horizontalAlignment = Alignment.Start,
+                                ) {
+                                    Text(
+                                        text = "Username",
+                                        style = Typography.labelLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Black
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Recent Message",
+                                        style = Typography.bodySmall,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = Gray
+                                    )
+                                }
+                            }
+
+                            Column(
+                                horizontalAlignment = Alignment.End,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "Time",
+                                    style = Typography.labelSmall,
+                                    color = Main
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                IconButton(
+                                    onClick = { /*TODO*/ },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        contentColor = Color.White,
+                                        containerColor = Main
+                                    ),
+                                    modifier = Modifier.size(16.dp)
+                                ) {
+                                    Text(text = "1", style = Typography.labelSmall)
+                                }
+                            }
                         }
                     }
-
-                    Column(
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "Time",
-                            style = Typography.labelSmall,
-                            color = Main
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-//                        Text(
-//                            text = "N",
-//                            style = Typography.labelSmall,
-//                            color = Color.White,
-//                            modifier = Modifier
-//                                .size(16.dp)
-//                                .clip(RoundedCornerShape(100))
-//                                .background(Main)
-//                                .padding(horizontal = 4.dp)
-//                        )
-                        IconButton(
-                            onClick = { /*TODO*/ },
-                            colors = IconButtonDefaults.iconButtonColors(
-                                contentColor = Color.White,
-                                containerColor = Main
-                            ),
-                            modifier = Modifier.size(16.dp)
-                        ) {
-                            Text(text = "1", style = Typography.labelSmall)
-                        }
-
-                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
