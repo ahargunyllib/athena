@@ -22,6 +22,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +41,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ahargunyllib.athena.features.presentation.designSystem.Gray
+import com.ahargunyllib.athena.features.presentation.designSystem.MainDarkActive
+import com.ahargunyllib.athena.features.presentation.designSystem.MainLightActive
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
 import com.ahargunyllib.athena.features.presentation.screen.chat.ChatScreen
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeScreen
@@ -57,8 +61,14 @@ fun BottomNavHost(
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MainLightActive
+            ) {
                 NavigationBarItem(
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MainDarkActive,
+                        unselectedIconColor = Gray
+                    ),
                     icon = { Icon(Icons.Outlined.Home, contentDescription = "Home") },
                     selected = selected.intValue == 0,
                     onClick = {
@@ -67,6 +77,10 @@ fun BottomNavHost(
                     },
                 )
                 NavigationBarItem(
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MainDarkActive,
+                        unselectedIconColor = Gray
+                    ),
                     icon = { Icon(Icons.Outlined.Person, contentDescription = "Profile") },
                     selected = selected.intValue == 1,
                     onClick = {
@@ -75,6 +89,10 @@ fun BottomNavHost(
                     },
                 )
                 NavigationBarItem(
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MainDarkActive,
+                        unselectedIconColor = Gray
+                    ),
                     icon = { Icon(Icons.Outlined.Map, contentDescription = "Map") },
                     selected = selected.intValue == 2,
                     onClick = {
@@ -83,6 +101,10 @@ fun BottomNavHost(
                     },
                 )
                 NavigationBarItem(
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MainDarkActive,
+                        unselectedIconColor = Gray
+                    ),
                     icon = {
                         Icon(
                             Icons.Outlined.ChatBubbleOutline,
