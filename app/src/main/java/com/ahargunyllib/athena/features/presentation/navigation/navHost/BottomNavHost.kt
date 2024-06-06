@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Person
@@ -40,6 +41,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
+import com.ahargunyllib.athena.features.presentation.screen.chat.ChatScreen
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeScreen
 import com.ahargunyllib.athena.features.presentation.screen.map.MapScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
@@ -80,6 +82,19 @@ fun BottomNavHost(
                         selected.intValue = 2
                     },
                 )
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            Icons.Outlined.ChatBubbleOutline,
+                            contentDescription = "Chat"
+                        )
+                    },
+                    selected = selected.intValue == 3,
+                    onClick = {
+                        bottomNavController.navigate(BottomNavObj.ChatNavObj.route)
+                        selected.intValue = 3
+                    },
+                )
             }
         }
     ) { it ->
@@ -107,6 +122,15 @@ fun BottomNavHost(
 
             composable(BottomNavObj.MapNavObj.route) {
                 MapScreen(
+                    parentController = parentController,
+                    bottomNavController = bottomNavController
+                ) {
+                    selected.value = it
+                }
+            }
+
+            composable(BottomNavObj.ChatNavObj.route) {
+                ChatScreen(
                     parentController = parentController,
                     bottomNavController = bottomNavController
                 ) {

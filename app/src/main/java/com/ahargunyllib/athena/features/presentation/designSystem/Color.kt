@@ -18,3 +18,5 @@ val Information500 = Color(0xFF4D81E7)
 val Danger = Color(0xFFEE2B2B)
 
 val Main = Color(0xFF4188FF)
+val MainLight = Color(0xFFECF3FF)
+val MainLightHover = Color(0xFFE3EDFF)
