@@ -9,12 +9,9 @@ interface UserDAO {
     @Upsert
     suspend fun upsert(userEntity: UserEntity)
 
-    @Query("SELECT * FROM users WHERE userId = :userId")
-    suspend fun getUser(userId: String): UserEntity
-
     @Query("SELECT * FROM users")
-    suspend fun getAllUsers(): List<UserEntity>
+    suspend fun getUser(): UserEntity
 
-    @Query("DELETE FROM users WHERE userId = :userId")
-    suspend fun deleteUser(userId: String)
+    @Query("DELETE FROM users")
+    suspend fun deleteUser()
 }

@@ -12,6 +12,12 @@ data class LoginResponse (
     val data: UserLoginResponse,
 )
 
+data class RefreshTokenResponse (
+    val statusCode: Int,
+    val message: String,
+    val data: String,
+)
+
 data class UserRegisterResponse (
     val userId: String,
     val fullName: String,

@@ -16,8 +16,20 @@ data class UserEntity(
     @ColumnInfo(name = "full_name")
     val fullName: String,
 
+    @ColumnInfo(name = "username")
+    val username: String,
+
     @ColumnInfo(name = "email")
     val email: String,
+
+    @ColumnInfo(name = "phone_number")
+    val phoneNumber: String,
+
+    @ColumnInfo(name = "date_of_birth")
+    val dateOfBirth: String,
+
+    @ColumnInfo(name = "token")
+    val token: String,
 
     @ColumnInfo(name = "created_at")
     val createdAt: String = LocalDateTime.now().toString(),

@@ -3,6 +3,7 @@ package com.ahargunyllib.athena.features.data.repository
 import android.util.Log
 import com.ahargunyllib.athena.features.data.local.UserDAO
 import com.ahargunyllib.athena.features.data.local.UserDatabase
+import com.ahargunyllib.athena.features.data.local.UserEntity
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.UserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
@@ -14,42 +15,44 @@ import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val api: API,
     private val db: UserDatabase
 ) : UserRepository {
-    override fun getUsers(): Flow<Response<UsersResponse>> {
-        return flow {
-            emit(Response.Loading(isLoading = true))
-            try {
-                val response = api.getUsers()
-                Log.d("UserRepositoryImpl", "getUsers: $response")
-
-                if (response.status == HTTP_OK) {
-                    emit(Response.Success(response))
-                    emit(Response.Loading(isLoading = false))
-                    return@flow
-                } else {
-                    emit(Response.Error(response.message))
-                    emit(Response.Loading(isLoading = false))
-                    return@flow
-                }
-            } catch (e: Exception) {
-                emit(Response.Error(e.message ?: "An error occurred"))
-                emit(Response.Loading(isLoading = false))
-                Log.d("UserRepositoryImpl", "getUsers: ${e.message}")
-            }
+    override suspend fun getToken(): String? {
+        try {
+            val userDAO = db.getUserDAO()
+            val user = userDAO.getUser()
+            return user.token
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "getToken: ${e.message}")
+            return null
         }
     }
 
-    override fun getUserById(id: Int): Flow<Response<UserResponse>> {
-        TODO("Not yet implemented")
+    override suspend fun insertUser(user: UserEntity) {
+        try {
+            val userDAO = db.getUserDAO()
+            userDAO.upsert(user)
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "insertUser: ${e.message}")
+        }
     }
 
-    override fun insertUser() {
-        TODO("Not yet implemented")
+    override suspend fun getUser(): UserEntity? {
+        try {
+            val userDAO = db.getUserDAO()
+            return userDAO.getUser()
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "getUser: ${e.message}")
+            return null
+        }
     }
 
-    override fun deleteUser() {
-        TODO("Not yet implemented")
+    override suspend fun deleteUser() {
+        try {
+            val userDAO = db.getUserDAO()
+            userDAO.deleteUser()
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "deleteUser: ${e.message}")
+        }
     }
 }
