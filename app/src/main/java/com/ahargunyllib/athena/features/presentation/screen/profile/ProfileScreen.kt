@@ -5,17 +5,28 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.People
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,12 +34,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ahargunyllib.athena.R
+import com.ahargunyllib.athena.features.presentation.designSystem.Black
 import com.ahargunyllib.athena.features.presentation.designSystem.Danger
+import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLight
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
@@ -43,6 +57,10 @@ fun ProfileScreen(
 ) {
     val profileViewModel: ProfileViewModel = hiltViewModel()
     val userState = profileViewModel.userState.collectAsState()
+
+    var isSharingLocation = remember { mutableStateOf(true) }
+    val isPauseAll = remember { mutableStateOf(true) }
+    val isShowNotification = remember { mutableStateOf(true) }
 
     Scaffold(
         modifier = Modifier
@@ -85,20 +103,227 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.size(48.dp))
 
             // TODO: General Settings
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Outlined.People, contentDescription = "General Settings", tint = Gray)
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    "General Settings",
+                    style = Typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Gray
+                )
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+
+                    }
+            ) {
+                Text(
+                    "Change credentials",
+                    style = Typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Black
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    "Change your current E-mail and password",
+                    style = Typography.labelSmall,
+                    color = Gray
+                )
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(
+                    modifier = Modifier.clickable {
+
+                    }
+                ) {
+                    Text(
+                        "Location Sharing",
+                        style = Typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Black
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(
+                        "Share your current location",
+                        style = Typography.labelSmall,
+                        color = Gray
+                    )
+                }
+                Switch(
+                    checked = isSharingLocation.value,
+                    onCheckedChange = { isSharingLocation.value = it },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = Main,
+                        uncheckedThumbColor = Gray,
+                        uncheckedTrackColor = Gray.copy(alpha = 0.5f)
+                    ),
+                    thumbContent = {
+                        if (isSharingLocation.value) {
+                            Icon(
+                                Icons.Outlined.Check,
+                                contentDescription = "Checked",
+                                tint = Main
+                            )
+                        } else {
+                            Icon(
+                                Icons.Outlined.Close,
+                                contentDescription = "Unchecked",
+                                tint = Gray.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                )
+            }
             Spacer(modifier = Modifier.size(36.dp))
 
             // TODO: Notification Settings
-            Spacer(modifier = Modifier.size(48.dp))
-
-            TextButton(
-                onClick = {
-                    profileViewModel.logout()
-                    parentController.navigate(ParentNavObj.LoginNavObj.route)
-                },
-                colors = ButtonDefaults.textButtonColors(contentColor = Danger),
-                modifier = Modifier.align(Alignment.Start)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Logout", style = Typography.titleMedium, fontWeight = FontWeight.Bold)
+                Icon(
+                    Icons.Outlined.People,
+                    contentDescription = "Notification Settings",
+                    tint = Gray
+                )
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    "Notification Settings",
+                    style = Typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Gray
+                )
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(
+                    modifier = Modifier.clickable {
+
+                    }
+                ) {
+                    Text(
+                        "Pause All",
+                        style = Typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Black
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(
+                        "Temporarily pause notifications",
+                        style = Typography.labelSmall,
+                        color = Gray
+                    )
+                }
+                Switch(
+                    checked = isPauseAll.value,
+                    onCheckedChange = { isPauseAll.value = it },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = Main,
+                        uncheckedThumbColor = Gray,
+                        uncheckedTrackColor = Gray.copy(alpha = 0.5f)
+                    ),
+                    thumbContent = {
+                        if (isPauseAll.value) {
+                            Icon(
+                                Icons.Outlined.Check,
+                                contentDescription = "Checked",
+                                tint = Main
+                            )
+                        } else {
+                            Icon(
+                                Icons.Outlined.Close,
+                                contentDescription = "Unchecked",
+                                tint = Gray.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(
+                    modifier = Modifier.clickable {
+
+                    }
+                ) {
+                    Text(
+                        "Show Notification at all time",
+                        style = Typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Black
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(
+                        "Activated by default.",
+                        style = Typography.labelSmall,
+                        color = Gray
+                    )
+                }
+                Switch(
+                    checked = isShowNotification.value,
+                    onCheckedChange = { isShowNotification.value = it },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = Main,
+                        uncheckedThumbColor = Gray,
+                        uncheckedTrackColor = Gray.copy(alpha = 0.5f)
+                    ),
+                    thumbContent = {
+                        if (isShowNotification.value) {
+                            Icon(
+                                Icons.Outlined.Check,
+                                contentDescription = "Checked",
+                                tint = Main
+                            )
+                        } else {
+                            Icon(
+                                Icons.Outlined.Close,
+                                contentDescription = "Unchecked",
+                                tint = Gray.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.size(32.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Logout",
+                    style = Typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Danger,
+                    modifier = Modifier.clickable {
+                        profileViewModel.logout()
+                        parentController.navigate(ParentNavObj.LoginNavObj.route)
+                    }
+                )
             }
         }
     }
