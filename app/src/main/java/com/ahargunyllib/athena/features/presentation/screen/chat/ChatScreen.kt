@@ -24,15 +24,19 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.PeopleOutline
 import androidx.compose.material.icons.outlined.PersonAddAlt
+import androidx.compose.material.icons.outlined.PersonSearch
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,6 +47,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,21 +57,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ahargunyllib.athena.R
+import com.ahargunyllib.athena.features.data.remote.response.FriendshipStatus
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
 import com.ahargunyllib.athena.features.presentation.designSystem.Border
+import com.ahargunyllib.athena.features.presentation.designSystem.Danger
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLight
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLightHover
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
+import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileViewModel
+import com.ahargunyllib.athena.features.utils.Response
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -78,8 +90,16 @@ fun ChatScreen(
     val usernameToFind = remember { mutableStateOf("") }
     val usernameToChat = remember { mutableStateOf("") }
 
+    val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
     val showBottomSheet = remember { mutableStateOf(false) }
+
+    val chatViewModel: ChatViewModel = hiltViewModel()
+    val friendListState = chatViewModel.friendListState.collectAsState()
+    val searchUserState = chatViewModel.searchUserState.collectAsState()
+
+    val profileViewModel: ProfileViewModel = hiltViewModel()
+    val userState = profileViewModel.userState.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -272,6 +292,10 @@ fun ChatScreen(
                 containerColor = MainLightHover,
                 sheetMaxWidth = 608.dp,
             ) {
+                LaunchedEffect(Unit) {
+                    chatViewModel.getFriendList(context)
+                }
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -294,6 +318,8 @@ fun ChatScreen(
                                     "ChatScreen.Dialog",
                                     "usernameToFind: ${usernameToFind.value}"
                                 )
+
+                                chatViewModel.searchUser(context, usernameToFind.value)
                             }
                         ),
                         modifier = Modifier
@@ -310,74 +336,293 @@ fun ChatScreen(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
 
-                                if (usernameToFind.value.isEmpty()) {
-                                    Text(
-                                        text = "Add friend",
-                                        style = Typography.bodyLarge,
-                                        color = Gray
-                                    )
+                                Box(modifier = Modifier.fillMaxWidth()) {
+                                    if (usernameToFind.value.isEmpty()) {
+                                        Text(
+                                            text = "Add friend",
+                                            style = Typography.bodyLarge,
+                                            color = Gray
+                                        )
+                                    }
+                                    textField()
                                 }
-                                textField()
                             }
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Icon(
-                            Icons.Outlined.PeopleOutline,
-                            contentDescription = "Friends",
-                            tint = Gray
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            text = "Friends",
-                            style = Typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = Gray
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
 
-                    // List friends
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.dummy_avatar),
-                                contentDescription = "avatar",
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier.size(48.dp)
+                    if (usernameToFind.value != "") {
+                        if (searchUserState.value.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .padding(top = 64.dp)
+                                    .size(32.dp),
+                                color = Main
                             )
-                            Spacer(modifier = Modifier.width(16.dp))
+                        } else if (searchUserState.value.data != null) {
+                            val users = searchUserState.value.data
+                            Log.i("ChatScreen", "user: $users")
+                            if (users?.size == 0) {
+                                Text(
+                                    text = "No user found",
+                                    style = Typography.bodyLarge,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Gray
+                                )
+                            } else {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.dummy_avatar),
+                                            contentDescription = "avatar",
+                                            contentScale = ContentScale.Fit,
+                                            modifier = Modifier.size(48.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                        Text(
+                                            text = users?.get(0)?.username ?: "No Username",
+                                            style = Typography.bodySmall,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = Black
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = {
+                                            chatViewModel.addFriend(
+                                                context,
+                                                users?.get(0)?.userId ?: ""
+                                            )
+
+                                            usernameToFind.value = ""
+                                            chatViewModel.getFriendList(context)
+                                        },
+                                        colors = IconButtonDefaults.iconButtonColors(
+                                            contentColor = Color.White,
+                                            containerColor = Main
+                                        )
+                                    ) {
+                                        Icon(
+                                            Icons.Outlined.Add,
+                                            contentDescription = "Add",
+                                            tint = Color.White
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
                             Text(
-                                text = "Username",
-                                style = Typography.bodySmall,
+                                text = "No user found",
+                                style = Typography.bodyLarge,
                                 fontWeight = FontWeight.SemiBold,
-                                color = Black
+                                color = Gray
                             )
                         }
-                        IconButton(
-                            onClick = { /*TODO*/ },
-                            colors = IconButtonDefaults.iconButtonColors(
-                                contentColor = Color.White,
-                                containerColor = Main
+                    } else {
+                        if (friendListState.value.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .padding(top = 64.dp)
+                                    .size(32.dp),
+                                color = Main
                             )
-                        ) {
-                            Icon(
-                                Icons.Filled.Close,
-                                contentDescription = "Close",
-                                tint = Color.White
+                        } else if (friendListState.value.data.isNullOrEmpty()) {
+                            Text(
+                                text = "No friend found",
+                                style = Typography.bodyLarge,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Gray
                             )
+                        } else {
+                            val friendList = friendListState.value.data ?: emptyList()
+                            val userId = userState.value.data?.userId ?: ""
+                            Log.i("ChatScreen", "friendList: $friendList")
+
+                            val isFriend = friendList.any { it.status == FriendshipStatus.ACCEPTED }
+                            val isRequest = friendList.any { it.status == FriendshipStatus.PENDING }
+
+                            if (isFriend) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start
+                                ) {
+                                    Icon(
+                                        Icons.Outlined.PeopleOutline,
+                                        contentDescription = "Friends",
+                                        tint = Gray
+                                    )
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Text(
+                                        text = "Your Friends",
+                                        style = Typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Gray
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+                            LazyColumn {
+                                items(friendList.size) { index ->
+                                    if (friendList[index].status == FriendshipStatus.ACCEPTED) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.Start
+                                            ) {
+                                                Image(
+                                                    painter = painterResource(id = R.drawable.dummy_avatar),
+                                                    contentDescription = "avatar",
+                                                    contentScale = ContentScale.Fit,
+                                                    modifier = Modifier.size(48.dp)
+                                                )
+                                                Spacer(modifier = Modifier.width(16.dp))
+                                                Text(
+                                                    text = friendList[index].username,
+                                                    style = Typography.bodySmall,
+                                                    fontWeight = FontWeight.SemiBold,
+                                                    color = Black
+                                                )
+                                            }
+                                            IconButton(
+                                                onClick = {
+                                                    chatViewModel.removeFriend(
+                                                        context,
+                                                        friendList[index].userId
+                                                    )
+
+                                                    chatViewModel.getFriendList(context)
+                                                },
+                                                colors = IconButtonDefaults.iconButtonColors(
+                                                    contentColor = Color.White,
+                                                    containerColor = Main
+                                                )
+                                            ) {
+                                                Icon(
+                                                    Icons.Filled.Close,
+                                                    contentDescription = "Close",
+                                                    tint = Color.White
+                                                )
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                    }
+                                }
+                            }
+
+                            if (isFriend) {
+                                Spacer(modifier = Modifier.height(28.dp))
+                            }
+
+                            if (isRequest) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start
+                                ) {
+                                    Icon(
+                                        Icons.Outlined.PersonSearch,
+                                        contentDescription = "Friend Requests",
+                                        tint = Gray
+                                    )
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Text(
+                                        text = "Friend Requests",
+                                        style = Typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Gray
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+
+                            }
+                            LazyColumn {
+                                items(friendList.size) { index ->
+                                    if (friendList[index].status == FriendshipStatus.PENDING) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.Start
+                                            ) {
+                                                Image(
+                                                    painter = painterResource(id = R.drawable.dummy_avatar),
+                                                    contentDescription = "avatar",
+                                                    contentScale = ContentScale.Fit,
+                                                    modifier = Modifier.size(48.dp)
+                                                )
+                                                Spacer(modifier = Modifier.width(16.dp))
+                                                Text(
+                                                    text = friendList[index].username,
+                                                    style = Typography.bodySmall,
+                                                    fontWeight = FontWeight.SemiBold,
+                                                    color = Black
+                                                )
+                                            }
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.End
+                                            ) {
+                                                IconButton(
+                                                    onClick = {
+                                                        chatViewModel.acceptFriend(
+                                                            context,
+                                                            friendList[index].userId
+                                                        )
+
+                                                        chatViewModel.getFriendList(context)
+                                                    },
+                                                    colors = IconButtonDefaults.iconButtonColors(
+                                                        contentColor = Color.White,
+                                                        containerColor = Main
+                                                    )
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.Check,
+                                                        contentDescription = "Accept",
+                                                        tint = Color.White
+                                                    )
+                                                }
+                                                IconButton(
+                                                    onClick = {
+                                                        chatViewModel.rejectFriend(
+                                                            context,
+                                                            friendList[index].userId
+                                                        )
+
+                                                        chatViewModel.getFriendList(context)
+                                                    },
+                                                    colors = IconButtonDefaults.iconButtonColors(
+                                                        contentColor = Danger,
+                                                        containerColor = Color.White
+                                                    )
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.Close,
+                                                        contentDescription = "Reject",
+                                                        tint = Danger
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                    }
+                                }
+                            }
                         }
                     }
 
