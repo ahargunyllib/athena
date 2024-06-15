@@ -299,7 +299,9 @@ fun MapScreen(
                         Spacer(modifier = Modifier.height(12.dp))
                         IconButton(
                             onClick = {
-
+                                val intent = Intent(Intent.ACTION_DIAL)
+                                intent.data = Uri.parse("tel:112")
+                                context.startActivity(intent)
                             }, colors = IconButtonDefaults.iconButtonColors(
                                 containerColor = Color.White,
                                 contentColor = Color.Yellow.copy(red = 0.5f)
