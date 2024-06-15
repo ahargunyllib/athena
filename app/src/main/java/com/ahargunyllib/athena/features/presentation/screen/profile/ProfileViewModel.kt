@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.profile
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.local.UserEntity
@@ -36,7 +37,7 @@ class ProfileViewModel @Inject constructor(
             _userState.update {
                 it.copy(isLoading = false, data = user)
             }
-
+            Log.i("ProfileViewModel.getUser", "getUser: $user")
         }
     }
 
@@ -46,4 +47,30 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun updateIsSharingLocation(isSharingLocation: Boolean){
+        viewModelScope.launch {
+            val user = userState.value.data
+            user?.let {
+                userRepository.updateIsSharingLocation(it.userId, isSharingLocation)
+            }
+        }
+    }
+
+    fun updateIsPauseAll(isPauseAll: Boolean){
+        viewModelScope.launch {
+            val user = userState.value.data
+            user?.let {
+                userRepository.updateIsPauseAll(it.userId, isPauseAll)
+            }
+        }
+    }
+
+    fun updateIsShowNotification(isShowNotification: Boolean){
+        viewModelScope.launch {
+            val user = userState.value.data
+            user?.let {
+                userRepository.updateIsShowNotification(it.userId, isShowNotification)
+            }
+        }
+    }
 }

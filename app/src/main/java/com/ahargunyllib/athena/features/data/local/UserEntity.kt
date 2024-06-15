@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 @Entity(tableName = Constants.USER_DB_NAME)
 data class UserEntity(
     @PrimaryKey
+    @ColumnInfo(name = "user_id")
     val userId: String,
 
     @ColumnInfo(name = "full_name")
@@ -30,6 +31,15 @@ data class UserEntity(
 
     @ColumnInfo(name = "token")
     val token: String,
+
+    @ColumnInfo(name = "is_sharing_location")
+    val isSharingLocation: Boolean,
+
+    @ColumnInfo(name = "is_pause_all")
+    val isPauseAll: Boolean,
+
+    @ColumnInfo(name = "is_show_notification")
+    val isShowNotification: Boolean,
 
     @ColumnInfo(name = "created_at")
     val createdAt: String = LocalDateTime.now().toString(),

@@ -12,4 +12,7 @@ interface UserRepository {
     suspend fun insertUser(user: UserEntity)
     suspend fun getUser(): UserEntity?
     suspend fun deleteUser()
+    suspend fun updateIsSharingLocation(userId: String, isSharingLocation: Boolean)
+    suspend fun updateIsPauseAll(userId: String, isPauseAll: Boolean)
+    suspend fun updateIsShowNotification(userId: String, isShowNotification: Boolean)
 }

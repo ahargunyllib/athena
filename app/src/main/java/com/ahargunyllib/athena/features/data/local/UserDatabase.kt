@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [UserEntity::class],
-    version = 4
+    version = 6
 )
 abstract class UserDatabase: RoomDatabase() {
     abstract fun getUserDAO(): UserDAO

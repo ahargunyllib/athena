@@ -55,4 +55,30 @@ class UserRepositoryImpl @Inject constructor(
             Log.e("UserRepositoryImpl", "deleteUser: ${e.message}")
         }
     }
+    override suspend fun updateIsSharingLocation(userId: String, isSharingLocation: Boolean) {
+        try {
+            val userDAO = db.getUserDAO()
+            userDAO.updateIsSharingLocation(userId, isSharingLocation)
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "updateIsSharingLocation: ${e.message}")
+        }
+    }
+
+    override suspend fun updateIsPauseAll(userId: String, isPauseAll: Boolean) {
+        try {
+            val userDAO = db.getUserDAO()
+            userDAO.updateIsPauseAll(userId, isPauseAll)
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "updateIsPauseAll: ${e.message}")
+        }
+    }
+
+    override suspend fun updateIsShowNotification(userId: String, isShowNotification: Boolean) {
+        try {
+            val userDAO = db.getUserDAO()
+            userDAO.updateIsShowNotification(userId, isShowNotification)
+        } catch (e: Exception) {
+            Log.e("UserRepositoryImpl", "updateIsShowNotification: ${e.message}")
+        }
+    }
 }

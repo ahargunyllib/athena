@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.profile
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,9 +60,12 @@ fun ProfileScreen(
     val profileViewModel: ProfileViewModel = hiltViewModel()
     val userState = profileViewModel.userState.collectAsState()
 
-    var isSharingLocation = remember { mutableStateOf(true) }
-    val isPauseAll = remember { mutableStateOf(true) }
-    val isShowNotification = remember { mutableStateOf(true) }
+    Log.i("ProfileScreen", "ProfileScreen: ${userState.value}")
+
+    val isSharingLocation = remember { mutableStateOf(userState.value.data?.isSharingLocation) }
+    val isPauseAll = remember { mutableStateOf(userState.value.data?.isPauseAll) }
+    val isShowNotification = remember { mutableStateOf(userState.value.data?.isShowNotification) }
+
 
     Scaffold(
         modifier = Modifier
@@ -86,7 +91,7 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = ("@" + userState.value.data?.username) ?: "",
+                text = ("@" + userState.value.data?.username),
                 style = Typography.bodyLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -163,8 +168,11 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isSharingLocation.value,
-                    onCheckedChange = { isSharingLocation.value = it },
+                    checked = isSharingLocation?.value ?: userState.value.data?.isSharingLocation ?: false,
+                    onCheckedChange = {
+                        isSharingLocation.value = it
+                        profileViewModel.updateIsSharingLocation(it)
+                    },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.White,
                         checkedTrackColor = Main,
@@ -172,7 +180,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isSharingLocation.value) {
+                        if (isSharingLocation?.value ?: userState.value.data?.isSharingLocation == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",
@@ -233,8 +241,11 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isPauseAll.value,
-                    onCheckedChange = { isPauseAll.value = it },
+                    checked = isPauseAll?.value ?: userState.value.data?.isPauseAll ?: false,
+                    onCheckedChange = {
+                        isPauseAll.value = it
+                        profileViewModel.updateIsPauseAll(it)
+                    },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.White,
                         checkedTrackColor = Main,
@@ -242,7 +253,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isPauseAll.value) {
+                        if (isPauseAll?.value ?: userState.value.data?.isPauseAll == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",
@@ -282,8 +293,11 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isShowNotification.value,
-                    onCheckedChange = { isShowNotification.value = it },
+                    checked = isShowNotification?.value ?: userState.value.data?.isShowNotification ?: false,
+                    onCheckedChange = {
+                        isShowNotification.value = it
+                        profileViewModel.updateIsShowNotification(it)
+                    },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.White,
                         checkedTrackColor = Main,
@@ -291,7 +305,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isShowNotification.value) {
+                        if (isShowNotification?.value ?: userState.value.data?.isShowNotification == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",

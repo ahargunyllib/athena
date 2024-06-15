@@ -156,15 +156,27 @@ dependencies {
 
     // Google maps for compose
     // noinspection UseTomlInstead
-    implementation("com.google.maps.android:maps-compose:2.8.0")
+    implementation("com.google.maps.android:maps-compose:5.0.3")
 
     // KTX for the Maps SDK for Android
     // noinspection UseTomlInstead
-    implementation("com.google.maps.android:maps-ktx:3.2.1")
+    implementation("com.google.maps.android:maps-ktx:5.0.0")
+
+    // Google maps utils for compose
+    // noinspection UseTomlInstead
+    implementation("com.google.maps.android:maps-compose-utils:5.0.3")
 
     // KTX for the Maps SDK for Android Utility Library
     // noinspection UseTomlInstead
-    implementation("com.google.maps.android:maps-utils-ktx:3.2.1")
+    implementation("com.google.maps.android:maps-utils-ktx:5.0.0")
+
+    // Google map widgets for compose
+    // noinspection UseTomlInstead
+    implementation("com.google.maps.android:maps-compose-widgets:5.0.3")
+
+    // Permissions
+    // noinspection UseTomlInstead
+    implementation("com.google.accompanist:accompanist-permissions:0.20.0")
 }
 
 kapt {
