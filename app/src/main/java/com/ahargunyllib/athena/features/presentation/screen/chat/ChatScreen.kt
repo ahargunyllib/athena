@@ -136,7 +136,9 @@ fun ChatScreen(
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .size(32.dp)
-                            .clickable { }
+                            .clickable {
+                                parentController.navigate(ParentNavObj.ProfileNavObj.route)
+                            }
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(

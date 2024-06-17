@@ -13,17 +13,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.People
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -51,11 +56,10 @@ import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.designSystem.fontFamily
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    parentController: NavController = rememberNavController(),
-    bottomNavController: NavController = rememberNavController(),
-    onChangeScreen: (Int) -> Unit
+    parentController: NavController = rememberNavController()
 ) {
     val profileViewModel: ProfileViewModel = hiltViewModel()
     val userState = profileViewModel.userState.collectAsState()
@@ -70,13 +74,30 @@ fun ProfileScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(MainLight)
-            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 92.dp),
+            .background(MainLight),
+        topBar = {
+            TopAppBar(
+                title = { /*TODO*/ },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { parentController.navigate(ParentNavObj.BottomNavObj.route) },
+                        content = {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                tint = Black
+                            )
+                        })
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MainLight),
+            )
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MainLight)
+                .padding(horizontal = 20.dp)
                 .padding(paddingValues),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally

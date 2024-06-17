@@ -16,6 +16,7 @@ import com.ahargunyllib.athena.features.presentation.navigation.navObject.Parent
 import com.ahargunyllib.athena.features.presentation.screen.chat.chatRoom.ChatRoomScreen
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeViewModel
 import com.ahargunyllib.athena.features.presentation.screen.home.UserState
+import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
 
 @Composable
 fun ParentNavHost() {
@@ -47,6 +48,10 @@ fun ParentNavHost() {
             )
         ) {
             ChatRoomScreen(parentNavController, it.arguments?.getString("chatRoomId") ?: "", it.arguments?.getString("friendId") ?: "")
+        }
+
+        composable(ParentNavObj.ProfileNavObj.route) {
+            ProfileScreen(parentNavController)
         }
     }
 }

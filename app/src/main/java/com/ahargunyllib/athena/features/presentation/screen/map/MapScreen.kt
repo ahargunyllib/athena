@@ -90,6 +90,7 @@ import com.ahargunyllib.athena.features.presentation.designSystem.Danger
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
+import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileViewModel
 import com.ahargunyllib.athena.features.presentation.widget.PermissionBox
 import com.ahargunyllib.athena.features.utils.Constants.UPDATE_LOCATION_SECOND
@@ -256,7 +257,7 @@ fun MapScreen(
                             modifier = Modifier
                                 .size(32.dp)
                                 .clickable {
-                                    bottomNavController.navigate(BottomNavObj.ProfileNavObj.route)
+                                    parentController.navigate(ParentNavObj.ProfileNavObj.route)
                                 })
                         Spacer(modifier = Modifier.size(12.dp))
                         Text(

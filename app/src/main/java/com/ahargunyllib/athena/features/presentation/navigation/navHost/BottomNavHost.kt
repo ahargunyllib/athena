@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.navigation.navHost
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,8 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.InsertDriveFile
+import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
@@ -46,10 +50,12 @@ import com.ahargunyllib.athena.features.presentation.designSystem.MainDarkActive
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLightActive
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
 import com.ahargunyllib.athena.features.presentation.screen.chat.ChatScreen
+import com.ahargunyllib.athena.features.presentation.screen.comingSoon.ComingSoonScreen
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeScreen
 import com.ahargunyllib.athena.features.presentation.screen.map.MapScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
 
+@SuppressLint("MissingPermission")
 @Composable
 fun BottomNavHost(
     parentController: NavController = rememberNavController()
@@ -81,25 +87,19 @@ fun BottomNavHost(
                         selectedIconColor = MainDarkActive,
                         unselectedIconColor = Gray
                     ),
-                    icon = { Icon(Icons.Outlined.Person, contentDescription = "Profile") },
+                    icon = {
+                        Icon(
+                            Icons.Outlined.ChatBubbleOutline,
+                            contentDescription = "Chat"
+                        )
+                    },
                     selected = selected.intValue == 1,
                     onClick = {
-                        bottomNavController.navigate(BottomNavObj.ProfileNavObj.route)
+                        bottomNavController.navigate(BottomNavObj.ChatNavObj.route)
                         selected.intValue = 1
                     },
                 )
-                NavigationBarItem(
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MainDarkActive,
-                        unselectedIconColor = Gray
-                    ),
-                    icon = { Icon(Icons.Outlined.Map, contentDescription = "Map") },
-                    selected = selected.intValue == 2,
-                    onClick = {
-                        bottomNavController.navigate(BottomNavObj.MapNavObj.route)
-                        selected.intValue = 2
-                    },
-                )
+
                 NavigationBarItem(
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = MainDarkActive,
@@ -107,13 +107,31 @@ fun BottomNavHost(
                     ),
                     icon = {
                         Icon(
-                            Icons.Outlined.ChatBubbleOutline,
-                            contentDescription = "Chat"
+                            Icons.AutoMirrored.Outlined.InsertDriveFile,
+                            contentDescription = "Memory"
+                        )
+                    },
+                    selected = selected.intValue == 2,
+                    onClick = {
+                        bottomNavController.navigate(BottomNavObj.MemoryNavObj.route)
+                        selected.intValue = 2
+                    },
+                )
+
+                NavigationBarItem(
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MainDarkActive,
+                        unselectedIconColor = Gray
+                    ),
+                    icon = {
+                        Icon(
+                            Icons.Outlined.Lightbulb,
+                            contentDescription = "Education"
                         )
                     },
                     selected = selected.intValue == 3,
                     onClick = {
-                        bottomNavController.navigate(BottomNavObj.ChatNavObj.route)
+                        bottomNavController.navigate(BottomNavObj.EducationNavObj.route)
                         selected.intValue = 3
                     },
                 )
@@ -125,24 +143,6 @@ fun BottomNavHost(
             startDestination = BottomNavObj.HomeNavObj.route
         ) {
             composable(BottomNavObj.HomeNavObj.route) {
-                HomeScreen(
-                    parentController = parentController,
-                    bottomNavController = bottomNavController
-                ) {
-                    selected.value = it
-                }
-            }
-
-            composable(BottomNavObj.ProfileNavObj.route) {
-                ProfileScreen(
-                    parentController = parentController,
-                    bottomNavController = bottomNavController
-                ) {
-                    selected.value = it
-                }
-            }
-
-            composable(BottomNavObj.MapNavObj.route) {
                 MapScreen(
                     parentController = parentController,
                     bottomNavController = bottomNavController
@@ -153,6 +153,24 @@ fun BottomNavHost(
 
             composable(BottomNavObj.ChatNavObj.route) {
                 ChatScreen(
+                    parentController = parentController,
+                    bottomNavController = bottomNavController
+                ) {
+                    selected.value = it
+                }
+            }
+
+            composable(BottomNavObj.MemoryNavObj.route) {
+                ComingSoonScreen(
+                    parentController = parentController,
+                    bottomNavController = bottomNavController
+                ) {
+                    selected.value = it
+                }
+            }
+
+            composable(BottomNavObj.EducationNavObj.route) {
+                ComingSoonScreen(
                     parentController = parentController,
                     bottomNavController = bottomNavController
                 ) {
