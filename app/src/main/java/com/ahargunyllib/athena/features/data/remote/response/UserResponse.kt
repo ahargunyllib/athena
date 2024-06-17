@@ -22,3 +22,16 @@ data class UserResponse(
     @SerializedName("message") val message: String,
     @SerializedName("data") val data: User
 )
+
+data class ProfileUserResponse(
+    val statusCode: Int,
+    val message: String,
+    val data: ProfileUser
+)
+
+data class ProfileUser(
+    val userId: String,
+    val username: String,
+    val fullName: String,
+    val email: String,
+)

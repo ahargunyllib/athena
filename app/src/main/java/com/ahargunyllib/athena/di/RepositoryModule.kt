@@ -1,10 +1,12 @@
 package com.ahargunyllib.athena.di
 
 import com.ahargunyllib.athena.features.data.repository.AuthRepositoryImpl
+import com.ahargunyllib.athena.features.data.repository.ChatRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.FriendshipRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.LocationRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.UserRepositoryImpl
 import com.ahargunyllib.athena.features.domain.repository.AuthRepository
+import com.ahargunyllib.athena.features.domain.repository.ChatRepository
 import com.ahargunyllib.athena.features.domain.repository.FriendshipRepository
 import com.ahargunyllib.athena.features.domain.repository.LocationRepository
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
@@ -32,4 +34,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindLocationRepository(locationRepositoryImpl: LocationRepositoryImpl): LocationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindChatRepository(chatRepositoryImpl: ChatRepositoryImpl): ChatRepository
 }

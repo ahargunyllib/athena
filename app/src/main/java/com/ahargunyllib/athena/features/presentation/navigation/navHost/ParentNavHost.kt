@@ -7,15 +7,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
+import com.ahargunyllib.athena.features.presentation.screen.chat.chatRoom.ChatRoomScreen
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeViewModel
 import com.ahargunyllib.athena.features.presentation.screen.home.UserState
 
 @Composable
- fun ParentNavHost() {
+fun ParentNavHost() {
     val parentNavController = rememberNavController()
 
     // check token in user db
@@ -27,13 +30,23 @@ import com.ahargunyllib.athena.features.presentation.screen.home.UserState
     NavHost(
         navController = parentNavController,
         startDestination = if (isUserLoggedIn) ParentNavObj.BottomNavObj.route else ParentNavObj.LoginNavObj.route,
-    ){
-        composable(ParentNavObj.LoginNavObj.route){
+    ) {
+        composable(ParentNavObj.LoginNavObj.route) {
             AuthNavHost(parentNavController)
         }
 
-        composable(ParentNavObj.BottomNavObj.route){
+        composable(ParentNavObj.BottomNavObj.route) {
             BottomNavHost(parentNavController)
+        }
+
+        composable(
+            "ParentNavObj.ChatRoomNavObj.route/{chatRoomId}/{friendId}",
+            arguments = listOf(
+                navArgument("chatRoomId") { type = NavType.StringType },
+                navArgument("friendId") { type = NavType.StringType },
+            )
+        ) {
+            ChatRoomScreen(parentNavController, it.arguments?.getString("chatRoomId") ?: "", it.arguments?.getString("friendId") ?: "")
         }
     }
 }

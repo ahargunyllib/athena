@@ -2,9 +2,12 @@ package com.ahargunyllib.athena.features.data.remote
 
 import com.ahargunyllib.athena.features.data.remote.response.AcceptFriendResponse
 import com.ahargunyllib.athena.features.data.remote.response.AddFriendResponse
+import com.ahargunyllib.athena.features.data.remote.response.ChatRoomResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendListResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendsLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.LoginResponse
+import com.ahargunyllib.athena.features.data.remote.response.MessagesResponse
+import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.RefreshTokenResponse
 import com.ahargunyllib.athena.features.data.remote.response.RegisterResponse
 import com.ahargunyllib.athena.features.data.remote.response.RejectFriendResponse
@@ -86,4 +89,20 @@ interface API {
         @Body locationModel: LocationModel
     ): UpdateLocationResponse
 
+    @GET("/api/chat/room")
+    suspend fun getChatRooms(
+        @Header("Authorization") token: String
+    ): ChatRoomResponse
+
+    @GET("/api/chat/room/{chatRoomId}")
+    suspend fun getMessages(
+        @Header("Authorization") token: String,
+        @Path("chatRoomId") chatRoomId: String
+    ): MessagesResponse
+
+    @GET("/api/user/{userId}")
+    suspend fun getUser(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): ProfileUserResponse
 }

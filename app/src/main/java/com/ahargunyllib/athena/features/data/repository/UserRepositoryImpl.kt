@@ -1,10 +1,12 @@
 package com.ahargunyllib.athena.features.data.repository
 
+import android.content.Context
 import android.util.Log
 import com.ahargunyllib.athena.features.data.local.UserDAO
 import com.ahargunyllib.athena.features.data.local.UserDatabase
 import com.ahargunyllib.athena.features.data.local.UserEntity
 import com.ahargunyllib.athena.features.data.remote.API
+import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
@@ -15,7 +17,8 @@ import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val db: UserDatabase
+    private val db: UserDatabase,
+    private val api: API
 ) : UserRepository {
     override suspend fun getToken(): String? {
         try {
@@ -79,6 +82,38 @@ class UserRepositoryImpl @Inject constructor(
             userDAO.updateIsShowNotification(userId, isShowNotification)
         } catch (e: Exception) {
             Log.e("UserRepositoryImpl", "updateIsShowNotification: ${e.message}")
+        }
+    }
+
+    override suspend fun getUser(context: Context, userId: String): Flow<Response<ProfileUserResponse>> {
+        return flow {
+            emit(Response.Loading())
+
+            try {
+                val token = getToken()
+
+                val response = api.getUser(
+                    "Bearer $token",
+                    userId
+                )
+
+                when (response.statusCode) {
+                    200 -> {
+                        emit(Response.Loading(isLoading = false))
+                        emit(Response.Success(response))
+                        return@flow
+                    }
+
+                    else -> {
+                        emit(Response.Loading(isLoading = false))
+                        emit(Response.Error(response.message))
+                        return@flow
+                    }
+                }
+            } catch (e: Exception) {
+                emit(Response.Loading(isLoading = false))
+                emit(Response.Error(e.message ?: "An error occurred"))
+            }
         }
     }
 }

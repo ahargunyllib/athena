@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ahargunyllib.athena.features.data.remote.response.ChatRoom
 import com.ahargunyllib.athena.features.data.remote.response.FriendListResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendshipResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendshipStatus
 import com.ahargunyllib.athena.features.data.remote.response.MinUserResponse
+import com.ahargunyllib.athena.features.domain.repository.ChatRepository
 import com.ahargunyllib.athena.features.domain.repository.FriendshipRepository
 import com.ahargunyllib.athena.features.utils.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,16 +33,26 @@ data class SearchUserState(
     val data: List<MinUserResponse>? = null
 )
 
+data class ChatRoomsState(
+    val isLoading: Boolean = false,
+    val message: String = "",
+    val data: List<ChatRoom>? = null
+)
+
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val friendshipRepository: FriendshipRepository
+    private val friendshipRepository: FriendshipRepository,
+    private val chatRepository: ChatRepository
 ) : ViewModel() {
     private val _friendListState = MutableStateFlow(FriendListState())
     val friendListState = _friendListState.asStateFlow()
 
     private val _searchUserState = MutableStateFlow(SearchUserState())
     val searchUserState = _searchUserState.asStateFlow()
+
+    private val _chatRoomsState = MutableStateFlow(ChatRoomsState())
+    val chatRoomsState = _chatRoomsState.asStateFlow()
 
     fun getFriendList(context: Context) {
         viewModelScope.launch {
@@ -241,5 +253,43 @@ class ChatViewModel @Inject constructor(
 
     private fun clearSearchUserState() {
         _searchUserState.value = SearchUserState()
+    }
+
+    fun getChatRooms(context: Context) {
+        viewModelScope.launch {
+            _chatRoomsState.update { state ->
+                state.copy(isLoading = true)
+            }
+
+            chatRepository.getChatRooms(context).collectLatest { response ->
+                when (response) {
+                    is Response.Success -> {
+                        Log.i(
+                            "ChatViewModel.getChatRooms.Success",
+                            "getChatRooms: ${response.data}"
+                        )
+                        _chatRoomsState.update { state ->
+                            state.copy(isLoading = false, data = response.data?.data)
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _chatRoomsState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                message = response.message ?: "Unknown Error"
+                            )
+                        }
+                    }
+
+                    is Response.Loading -> {
+                        Log.i("ChatViewModel.getChatRooms.Loading", "getChatRooms: Loading")
+                        _chatRoomsState.update { state ->
+                            state.copy(isLoading = true)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
