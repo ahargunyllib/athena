@@ -11,6 +11,7 @@ data class FriendshipResponse(
     val fullName: String,
     val username: String,
     val status: FriendshipStatus,
+    val imageUrl: String
 )
 
 enum class FriendshipStatus {
@@ -22,6 +23,7 @@ data class MinUserResponse(
     val userId: String,
     val fullName: String,
     val username: String,
+    val imageUrl: String
 )
 
 data class FriendResponse(

@@ -81,6 +81,7 @@ class ChatRoomViewModel @Inject constructor(
                                 userId = "",
                                 fullName = "",
                                 username = "",
+                                imageUrl = ""
                             )
                         )
 
@@ -164,23 +165,7 @@ class ChatRoomViewModel @Inject constructor(
         }
     }
 
-    private fun parseMessage(message: String): Message {
-        return Message(
-            messageId = "",
-            chatRoomId = "",
-            senderId = "ASD",
-            content = message,
-            type = "text",
-            createdAt = "",
-            sender = MinUserResponse(
-                userId = "ASD",
-                fullName = "ASD",
-                username = "ASD",
-            )
-        )
-    }
-
-    fun joinRoom(chatRoomId: String) {
+    private fun joinRoom(chatRoomId: String) {
         val json = JSONObject().apply {
             put("chatRoomId", chatRoomId)
         }

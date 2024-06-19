@@ -12,6 +12,7 @@ data class FriendLocationResponse(
     val username: String,
     val latitude: Float,
     val longitude: Float,
+    val imageUrl: String,
 )
 
 data class UpdateLocationResponse(

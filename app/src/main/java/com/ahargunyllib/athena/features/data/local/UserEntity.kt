@@ -41,6 +41,9 @@ data class UserEntity(
     @ColumnInfo(name = "is_show_notification")
     val isShowNotification: Boolean,
 
+    @ColumnInfo(name = "image_url")
+    val imageUrl: String,
+
     @ColumnInfo(name = "created_at")
     val createdAt: String = LocalDateTime.now().toString(),
 

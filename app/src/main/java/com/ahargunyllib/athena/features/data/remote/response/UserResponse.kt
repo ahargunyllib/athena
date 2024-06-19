@@ -34,4 +34,5 @@ data class ProfileUser(
     val username: String,
     val fullName: String,
     val email: String,
+    val imageUrl: String
 )

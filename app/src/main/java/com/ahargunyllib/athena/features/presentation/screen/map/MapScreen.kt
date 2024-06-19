@@ -83,6 +83,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
@@ -215,8 +216,8 @@ fun MapScreen(
                                 Image(
                                     painter = painterResource(id = R.drawable.dummy_avatar),
                                     contentDescription = "avatar",
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier.size(32.dp)
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.size(32.dp).clip(CircleShape)
                                 )
                             }
                         }
@@ -251,11 +252,13 @@ fun MapScreen(
                             .background(Color.White, RoundedCornerShape(16.dp))
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
-                        Image(painter = painterResource(id = R.drawable.dummy_avatar),
+                        AsyncImage(
+                            model = userState.value.data?.imageUrl,
                             contentDescription = "avatar",
-                            contentScale = ContentScale.Fit,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(32.dp)
+                                .clip(CircleShape)
                                 .clickable {
                                     parentController.navigate(ParentNavObj.ProfileNavObj.route)
                                 })

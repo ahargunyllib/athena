@@ -104,7 +104,8 @@ class AuthRepositoryImpl @Inject constructor(
                             token = response.data.token,
                             isSharingLocation = true,
                             isPauseAll = false,
-                            isShowNotification = true
+                            isShowNotification = true,
+                            imageUrl = response.data.user.imageUrl
                         )
                         userRepository.insertUser(user)
 

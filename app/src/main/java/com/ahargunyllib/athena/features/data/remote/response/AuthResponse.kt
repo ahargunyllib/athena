@@ -25,6 +25,7 @@ data class UserRegisterResponse (
     val email: String,
     val phoneNumber: String,
     val dateOfBirth: String,
+    val imageUrl: String,
     val createdAt: String,
     val updatedAt: String,
 )

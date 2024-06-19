@@ -67,6 +67,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.data.remote.response.FriendshipStatus
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
@@ -131,12 +132,13 @@ fun ChatScreen(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.dummy_avatar),
+                    AsyncImage(
+                        model = userState.value.data?.imageUrl,
                         contentDescription = "avatar",
-                        contentScale = ContentScale.Fit,
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(32.dp)
+                            .clip(CircleShape)
                             .clickable {
                                 parentController.navigate(ParentNavObj.ProfileNavObj.route)
                             }
@@ -253,11 +255,11 @@ fun ChatScreen(
                                         horizontalArrangement = Arrangement.Start,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.dummy_avatar),
+                                        AsyncImage(
+                                            model = chatRoom.friend.imageUrl,
                                             contentDescription = "avatar",
-                                            contentScale = ContentScale.Fit,
-                                            modifier = Modifier.size(32.dp)
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.size(32.dp).clip(CircleShape)
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Column(
@@ -405,11 +407,11 @@ fun ChatScreen(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Start
                                     ) {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.dummy_avatar),
+                                        AsyncImage(
+                                            model = users?.get(0)?.imageUrl,
                                             contentDescription = "avatar",
-                                            contentScale = ContentScale.Fit,
-                                            modifier = Modifier.size(48.dp)
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.size(48.dp).clip(CircleShape)
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Text(
@@ -508,11 +510,11 @@ fun ChatScreen(
                                                 verticalAlignment = Alignment.CenterVertically,
                                                 horizontalArrangement = Arrangement.Start
                                             ) {
-                                                Image(
-                                                    painter = painterResource(id = R.drawable.dummy_avatar),
+                                                AsyncImage(
+                                                    model = friendList[index].imageUrl,
                                                     contentDescription = "avatar",
-                                                    contentScale = ContentScale.Fit,
-                                                    modifier = Modifier.size(48.dp)
+                                                    contentScale = ContentScale.Crop,
+                                                    modifier = Modifier.size(48.dp).clip(CircleShape)
                                                 )
                                                 Spacer(modifier = Modifier.width(16.dp))
                                                 Text(
@@ -586,11 +588,11 @@ fun ChatScreen(
                                                 verticalAlignment = Alignment.CenterVertically,
                                                 horizontalArrangement = Arrangement.Start
                                             ) {
-                                                Image(
-                                                    painter = painterResource(id = R.drawable.dummy_avatar),
+                                                AsyncImage(
+                                                    model = friendList[index].imageUrl,
                                                     contentDescription = "avatar",
-                                                    contentScale = ContentScale.Fit,
-                                                    modifier = Modifier.size(48.dp)
+                                                    contentScale = ContentScale.Crop,
+                                                    modifier = Modifier.size(48.dp).clip(CircleShape)
                                                 )
                                                 Spacer(modifier = Modifier.width(16.dp))
                                                 Text(
