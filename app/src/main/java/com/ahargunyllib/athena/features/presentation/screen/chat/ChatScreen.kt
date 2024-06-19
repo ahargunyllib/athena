@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.BasicTextField2
@@ -178,7 +179,7 @@ fun ChatScreen(
                 }
             }
             Spacer(modifier = Modifier.height(32.dp))
-            BasicTextField2(
+            BasicTextField(
                 value = usernameToChat.value,
                 onValueChange = { usernameToChat.value = it },
                 textStyle = Typography.bodyLarge,
@@ -197,26 +198,28 @@ fun ChatScreen(
                     .clip(RoundedCornerShape(16.dp))
                     .background(Color.White)
                     .padding(horizontal = 12.dp, vertical = 12.dp),
-                decorator = { textField ->
+                decorationBox = { textField ->
                     Row {
                         Icon(Icons.Outlined.Search, contentDescription = "Search", tint = Gray)
                         Spacer(modifier = Modifier.width(8.dp))
 
-                        if (usernameToChat.value.isEmpty()) {
-                            Text(
-                                text = "Search friends",
-                                style = Typography.bodyLarge,
-                                color = Gray
-                            )
+                        Box {
+                            if (usernameToChat.value.isEmpty()) {
+                                Text(
+                                    text = "Search friends",
+                                    style = Typography.bodyLarge,
+                                    color = Gray
+                                )
+                            }
+                            textField()
                         }
-                        textField()
                     }
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
 
             // List chat room
-            if (chatRoomsState.value.isLoading){
+            if (chatRoomsState.value.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .padding(top = 64.dp)
@@ -224,86 +227,86 @@ fun ChatScreen(
                     color = Main
                 )
             } else {
-            LazyColumn {
-                items(chatRoomsState.value.data?.size ?: 0) { index ->
-                    val chatRoom = chatRoomsState.value.data?.get(index)
-                    if (chatRoom != null){
-                        Card(
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White,
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    parentController.navigate("ParentNavObj.ChatRoomNavObj.route/${chatRoom.chatRoomId}/${chatRoom.friend.userId}")
-                                }
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
+                LazyColumn {
+                    items(chatRoomsState.value.data?.size ?: 0) { index ->
+                        val chatRoom = chatRoomsState.value.data?.get(index)
+                        if (chatRoom != null) {
+                            Card(
+                                shape = RoundedCornerShape(16.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White,
+                                ),
                                 modifier = Modifier
-                                    .padding(12.dp)
                                     .fillMaxWidth()
+                                    .clickable {
+                                        parentController.navigate("ParentNavObj.ChatRoomNavObj.route/${chatRoom.chatRoomId}/${chatRoom.friend.userId}")
+                                    }
                             ) {
                                 Row(
-                                    horizontalArrangement = Arrangement.Start,
-                                    verticalAlignment = Alignment.CenterVertically
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .padding(12.dp)
+                                        .fillMaxWidth()
                                 ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.dummy_avatar),
-                                        contentDescription = "avatar",
-                                        contentScale = ContentScale.Fit,
-                                        modifier = Modifier.size(32.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Row(
+                                        horizontalArrangement = Arrangement.Start,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.dummy_avatar),
+                                            contentDescription = "avatar",
+                                            contentScale = ContentScale.Fit,
+                                            modifier = Modifier.size(32.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(16.dp))
+                                        Column(
+                                            verticalArrangement = Arrangement.SpaceBetween,
+                                            horizontalAlignment = Alignment.Start,
+                                        ) {
+                                            Text(
+                                                text = chatRoom.friend.username,
+                                                style = Typography.labelLarge,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Black
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = "Recent Message",
+                                                style = Typography.bodySmall,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = Gray
+                                            )
+                                        }
+                                    }
+
                                     Column(
-                                        verticalArrangement = Arrangement.SpaceBetween,
-                                        horizontalAlignment = Alignment.Start,
+                                        horizontalAlignment = Alignment.End,
+                                        verticalArrangement = Arrangement.Center
                                     ) {
                                         Text(
-                                            text = chatRoom.friend.username,
-                                            style = Typography.labelLarge,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Black
+                                            text = "Time",
+                                            style = Typography.labelSmall,
+                                            color = Main
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = "Recent Message",
-                                            style = Typography.bodySmall,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = Gray
-                                        )
-                                    }
-                                }
-
-                                Column(
-                                    horizontalAlignment = Alignment.End,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = "Time",
-                                        style = Typography.labelSmall,
-                                        color = Main
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    IconButton(
-                                        onClick = { /*TODO*/ },
-                                        colors = IconButtonDefaults.iconButtonColors(
-                                            contentColor = Color.White,
-                                            containerColor = Main
-                                        ),
-                                        modifier = Modifier.size(16.dp)
-                                    ) {
-                                        Text(text = "1", style = Typography.labelSmall)
+                                        IconButton(
+                                            onClick = { /*TODO*/ },
+                                            colors = IconButtonDefaults.iconButtonColors(
+                                                contentColor = Color.White,
+                                                containerColor = Main
+                                            ),
+                                            modifier = Modifier.size(16.dp)
+                                        ) {
+                                            Text(text = "1", style = Typography.labelSmall)
+                                        }
                                     }
                                 }
                             }
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
-            }
 
             }
         }
@@ -326,7 +329,7 @@ fun ChatScreen(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    BasicTextField2(
+                    BasicTextField(
                         value = usernameToFind.value,
                         onValueChange = { usernameToFind.value = it },
                         textStyle = Typography.bodyLarge,
@@ -350,7 +353,7 @@ fun ChatScreen(
                             .clip(RoundedCornerShape(16.dp))
                             .background(Color.White)
                             .padding(horizontal = 12.dp, vertical = 12.dp),
-                        decorator = { textField ->
+                        decorationBox = { textField ->
                             Row {
                                 Icon(
                                     Icons.Outlined.Search,
@@ -425,6 +428,7 @@ fun ChatScreen(
 
                                             usernameToFind.value = ""
                                             chatViewModel.getFriendList(context)
+                                            chatViewModel.getChatRooms(context)
                                         },
                                         colors = IconButtonDefaults.iconButtonColors(
                                             contentColor = Color.White,

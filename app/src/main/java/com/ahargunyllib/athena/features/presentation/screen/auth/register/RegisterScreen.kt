@@ -161,7 +161,7 @@ fun RegisterScreen(
                 fontWeight = FontWeight.Normal,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField2(
+            BasicTextField(
                 value = fullName.value,
                 onValueChange = { fullName.value = it },
                 textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
@@ -182,7 +182,7 @@ fun RegisterScreen(
                 fontWeight = FontWeight.Normal,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField2(
+            BasicTextField(
                 value = username.value,
                 onValueChange = { username.value = it },
                 textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
@@ -203,7 +203,7 @@ fun RegisterScreen(
                 fontWeight = FontWeight.Normal,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField2(
+            BasicTextField(
                 value = email.value,
                 onValueChange = { email.value = it },
                 textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
@@ -264,7 +264,7 @@ fun RegisterScreen(
                 fontWeight = FontWeight.Normal,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField2(
+            BasicTextField(
                 value = phoneNumber.value,
                 onValueChange = { phoneNumber.value = it },
                 textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),

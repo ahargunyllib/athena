@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.BasicSecureTextField
 import androidx.compose.foundation.text2.BasicTextField2
@@ -133,7 +134,7 @@ fun LoginScreen(
                 fontWeight = FontWeight.Normal,
             )
             Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField2(
+            BasicTextField(
                 value = email.value,
                 onValueChange = { email.value = it },
                 textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),

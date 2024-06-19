@@ -238,6 +238,7 @@ fun ChatRoomScreen(
                     modifier = Modifier.size(48.dp),
                     onClick = {
                         chatRoomViewModel.sendMessage(chatRoomId, message.value, "text")
+                        message.value = ""
                     },
                     content = {
                         Icon(
