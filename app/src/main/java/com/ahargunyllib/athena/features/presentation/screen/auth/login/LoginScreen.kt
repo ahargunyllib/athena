@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.auth.login
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -224,15 +225,14 @@ fun LoginScreen(
                     .border(1.dp, Border, RoundedCornerShape(10.dp))
                     .height(48.dp),
                 contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
-                colors = ButtonColors(
+                colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
                     contentColor = Black,
-                    disabledContentColor = Color.White.copy(alpha = 0.5f),
-                    disabledContainerColor = Main.copy(alpha = 0.5f),
                 ),
                 shape = RoundedCornerShape(10.dp),
                 onClick = {
-                    //
+                    // Show toast
+                    Toast.makeText(context, "This feature is currently disabled", Toast.LENGTH_SHORT).show()
                 },
             ) {
                 Image(painterResource(id = R.drawable.google), contentDescription = "Google")

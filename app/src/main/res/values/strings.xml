@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">athena</string>
+    <string name="app_name">Athena</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD4gcWWLM1W-JRQnTafOLTNQtoYKx3nYH8</string>
 </resources>

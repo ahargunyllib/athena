@@ -1,8 +1,10 @@
 package com.ahargunyllib.athena.features.presentation.screen.auth.splashScreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -10,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.AuthNavObj
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 import kotlinx.coroutines.delay
@@ -30,11 +34,15 @@ fun SplashScreen0(
         modifier = Modifier.fillMaxSize()
     ) { it ->
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(it),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Splash Screen 0 ")
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = "Athena Logo",
+                modifier = Modifier.fillMaxSize(),
+            )
         }
     }
 }
