@@ -177,6 +177,10 @@ dependencies {
     // Permissions
     // noinspection UseTomlInstead
     implementation("com.google.accompanist:accompanist-permissions:0.20.0")
+
+    // Socket
+    // noinspection UseTomlInstead
+    implementation("io.socket:socket.io-client:2.1.0")
 }
 
 kapt {

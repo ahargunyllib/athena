@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.BasicTextField2
@@ -37,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -44,6 +47,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -89,6 +93,7 @@ fun ChatRoomScreen(
     val friendState = chatRoomViewModel.friendState.collectAsState()
 
     LaunchedEffect(Unit) {
+        chatRoomViewModel.initializeSocket(chatRoomId)
         chatRoomViewModel.getMessages(context, chatRoomId)
         chatRoomViewModel.getFriend(context, friendId)
     }
@@ -126,13 +131,18 @@ fun ChatRoomScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { parentController.navigate(ParentNavObj.BottomNavObj.route) }, content = {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.White
-                        )
-                    })
+                    IconButton(
+                        onClick = {
+                            chatRoomViewModel.exitRoom(chatRoomId)
+                            parentController.navigate(ParentNavObj.BottomNavObj.route)
+                        },
+                        content = {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                tint = Color.White
+                            )
+                        })
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Main),
             )
@@ -150,10 +160,10 @@ fun ChatRoomScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(it)
-                        .padding(horizontal = 20.dp),
+                        .padding(it),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
+                    verticalArrangement = Arrangement.Top,
+                    contentPadding = PaddingValues(16.dp)
                 ) {
                     items(messagesState.value.messages?.size ?: 0) { index ->
                         Spacer(modifier = Modifier.height(16.dp))
@@ -184,7 +194,7 @@ fun ChatRoomScreen(
                     .padding(bottom = 32.dp, start = 20.dp, end = 20.dp)
                     .fillMaxWidth()
             ) {
-                BasicTextField2(
+                BasicTextField(
                     value = message.value,
                     onValueChange = { message.value = it },
                     textStyle = Typography.bodyLarge,
@@ -194,7 +204,8 @@ fun ChatRoomScreen(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
-                            // TODO: Send message
+                            chatRoomViewModel.sendMessage(chatRoomId, message.value, "text")
+                            message.value = ""
                         }
                     ),
                     modifier = Modifier
@@ -207,7 +218,7 @@ fun ChatRoomScreen(
                         )
                         .background(Color.White)
                         .padding(horizontal = 12.dp, vertical = 12.dp),
-                    decorator = { textField ->
+                    decorationBox = { textField ->
                         Row {
                             Box(modifier = Modifier.fillMaxWidth()) {
                                 if (message.value.isEmpty()) {
@@ -225,7 +236,9 @@ fun ChatRoomScreen(
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
                     modifier = Modifier.size(48.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        chatRoomViewModel.sendMessage(chatRoomId, message.value, "text")
+                    },
                     content = {
                         Icon(
                             Icons.AutoMirrored.Outlined.Send,
