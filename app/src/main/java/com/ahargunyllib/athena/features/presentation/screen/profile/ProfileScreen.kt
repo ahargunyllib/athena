@@ -1,6 +1,7 @@
 package com.ahargunyllib.athena.features.presentation.screen.profile
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -70,6 +72,7 @@ fun ProfileScreen(
     val isPauseAll = remember { mutableStateOf(userState.value.data?.isPauseAll) }
     val isShowNotification = remember { mutableStateOf(userState.value.data?.isShowNotification) }
 
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier
@@ -118,7 +121,13 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.size(4.dp))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    Toast.makeText(
+                        context,
+                        "This feature is currently disabled",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
                     contentColor = Main
@@ -149,7 +158,13 @@ fun ProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-
+                        Toast
+                            .makeText(
+                                context,
+                                "This feature is currently disabled",
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
                     }
             ) {
                 Text(
@@ -189,7 +204,8 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isSharingLocation?.value ?: userState.value.data?.isSharingLocation ?: false,
+                    checked = isSharingLocation?.value ?: userState.value.data?.isSharingLocation
+                    ?: false,
                     onCheckedChange = {
                         isSharingLocation.value = it
                         profileViewModel.updateIsSharingLocation(it)
@@ -314,7 +330,8 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isShowNotification?.value ?: userState.value.data?.isShowNotification ?: false,
+                    checked = isShowNotification?.value ?: userState.value.data?.isShowNotification
+                    ?: false,
                     onCheckedChange = {
                         isShowNotification.value = it
                         profileViewModel.updateIsShowNotification(it)

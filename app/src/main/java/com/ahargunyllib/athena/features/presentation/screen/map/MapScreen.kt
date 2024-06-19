@@ -351,7 +351,11 @@ fun MapScreen(
                         ) {
                             IconButton(
                                 onClick = {
-
+                                    Toast.makeText(
+                                        context,
+                                        "This feature is currently disabled",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }, colors = IconButtonDefaults.iconButtonColors(
                                     containerColor = Main, contentColor = Color.White
                                 ), modifier = Modifier.size(56.dp)
@@ -367,7 +371,11 @@ fun MapScreen(
                             Spacer(modifier = Modifier.width(12.dp))
                             IconButton(
                                 onClick = {
-
+                                    Toast.makeText(
+                                        context,
+                                        "This feature is currently disabled",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }, colors = IconButtonDefaults.iconButtonColors(
                                     containerColor = Main, contentColor = Color.White
                                 ), modifier = Modifier.size(56.dp)

@@ -103,7 +103,7 @@ class AuthRepositoryImpl @Inject constructor(
                             updatedAt = response.data.user.updatedAt,
                             token = response.data.token,
                             isSharingLocation = true,
-                            isPauseAll = true,
+                            isPauseAll = false,
                             isShowNotification = true
                         )
                         userRepository.insertUser(user)
