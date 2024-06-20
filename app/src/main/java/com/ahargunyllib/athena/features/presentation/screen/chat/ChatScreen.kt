@@ -241,7 +241,7 @@ fun ChatScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
-                                        parentController.navigate("ParentNavObj.ChatRoomNavObj.route/${chatRoom.chatRoomId}/${chatRoom.friend.userId}")
+                                        parentController.navigate("${ParentNavObj.ChatRoomNavObj.route}/${chatRoom.chatRoomId}/${chatRoom.friend.userId}")
                                     }
                             ) {
                                 Row(
@@ -259,7 +259,9 @@ fun ChatScreen(
                                             model = chatRoom.friend.imageUrl,
                                             contentDescription = "avatar",
                                             contentScale = ContentScale.Crop,
-                                            modifier = Modifier.size(32.dp).clip(CircleShape)
+                                            modifier = Modifier
+                                                .size(32.dp)
+                                                .clip(CircleShape)
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Column(
@@ -411,7 +413,9 @@ fun ChatScreen(
                                             model = users?.get(0)?.imageUrl,
                                             contentDescription = "avatar",
                                             contentScale = ContentScale.Crop,
-                                            modifier = Modifier.size(48.dp).clip(CircleShape)
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                                .clip(CircleShape)
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Text(
@@ -514,7 +518,9 @@ fun ChatScreen(
                                                     model = friendList[index].imageUrl,
                                                     contentDescription = "avatar",
                                                     contentScale = ContentScale.Crop,
-                                                    modifier = Modifier.size(48.dp).clip(CircleShape)
+                                                    modifier = Modifier
+                                                        .size(48.dp)
+                                                        .clip(CircleShape)
                                                 )
                                                 Spacer(modifier = Modifier.width(16.dp))
                                                 Text(
@@ -592,7 +598,9 @@ fun ChatScreen(
                                                     model = friendList[index].imageUrl,
                                                     contentDescription = "avatar",
                                                     contentScale = ContentScale.Crop,
-                                                    modifier = Modifier.size(48.dp).clip(CircleShape)
+                                                    modifier = Modifier
+                                                        .size(48.dp)
+                                                        .clip(CircleShape)
                                                 )
                                                 Spacer(modifier = Modifier.width(16.dp))
                                                 Text(

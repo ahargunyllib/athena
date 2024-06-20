@@ -125,11 +125,7 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.size(4.dp))
             Button(
                 onClick = {
-                    Toast.makeText(
-                        context,
-                        "This feature is currently disabled",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    parentController.navigate(ParentNavObj.EditProfileNavObj.route)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,

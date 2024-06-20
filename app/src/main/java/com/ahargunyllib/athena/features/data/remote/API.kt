@@ -7,6 +7,7 @@ import com.ahargunyllib.athena.features.data.remote.response.FriendListResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendsLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.LoginResponse
 import com.ahargunyllib.athena.features.data.remote.response.MessagesResponse
+import com.ahargunyllib.athena.features.data.remote.response.MinUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.RefreshTokenResponse
 import com.ahargunyllib.athena.features.data.remote.response.RegisterResponse
@@ -14,16 +15,22 @@ import com.ahargunyllib.athena.features.data.remote.response.RejectFriendRespons
 import com.ahargunyllib.athena.features.data.remote.response.RemoveFriendResponse
 import com.ahargunyllib.athena.features.data.remote.response.SearchUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UpdateLocationResponse
+import com.ahargunyllib.athena.features.data.remote.response.UserRegisterResponse
 import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.domain.model.LoginModel
 import com.ahargunyllib.athena.features.domain.model.RegisterModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -105,4 +112,15 @@ interface API {
         @Header("Authorization") token: String,
         @Path("userId") userId: String
     ): ProfileUserResponse
+
+    @Multipart
+    @PUT("/api/user/update")
+    suspend fun updateUser(
+        @Header("Authorization") token: String,
+        @Part("fullName") fullName: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("phoneNumber") phoneNumber: RequestBody,
+        @Part("dateOfBirth") dateOfBirth: RequestBody,
+        @Part avatar : MultipartBody.Part?,
+    ): RegisterResponse
 }
