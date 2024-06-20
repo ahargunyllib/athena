@@ -2,10 +2,7 @@ package com.ahargunyllib.athena.features.presentation.navigation.navHost
 
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,7 +12,6 @@ import androidx.navigation.navArgument
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 import com.ahargunyllib.athena.features.presentation.screen.chat.chatRoom.ChatRoomScreen
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeViewModel
-import com.ahargunyllib.athena.features.presentation.screen.home.UserState
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.editCredentials.EditCredentialsScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.editProfile.EditProfileScreen
@@ -60,7 +56,7 @@ fun ParentNavHost() {
             EditProfileScreen(parentNavController)
         }
 
-        composable(ParentNavObj.EditCredentials.route) {
+        composable(ParentNavObj.EditCredentialsNavObj.route) {
             EditCredentialsScreen(parentNavController)
         }
     }

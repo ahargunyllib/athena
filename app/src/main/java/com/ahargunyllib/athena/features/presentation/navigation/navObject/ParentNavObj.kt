@@ -6,5 +6,5 @@ sealed class ParentNavObj (val route: String) {
     data object ChatRoomNavObj : ParentNavObj("chatroom")
     data object ProfileNavObj : ParentNavObj("profile")
     data object EditProfileNavObj : ParentNavObj("editprofile")
-    data object EditCredentials : ParentNavObj("editcredentials")
+    data object EditCredentialsNavObj : ParentNavObj("editcredentials")
 }
