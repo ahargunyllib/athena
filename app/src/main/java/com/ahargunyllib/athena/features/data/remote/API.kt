@@ -130,4 +130,9 @@ interface API {
         @Header("Authorization") token: String,
         @Body credentialsModel: CredentialsModel
     ): RegisterResponse
+
+    @POST("/api/sos")
+    suspend fun sos(
+        @Header("Authorization") token: String
+    ): UpdateLocationResponse
 }

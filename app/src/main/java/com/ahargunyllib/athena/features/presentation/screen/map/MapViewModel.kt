@@ -23,12 +23,30 @@ data class FriendsLocationState(
     val data: List<FriendLocationResponse>? = null
 )
 
+data class UpdateLocationState(
+    val isLoading: Boolean = true,
+    val message: String = "",
+    val data: List<Any>? = null
+)
+
+data class SOSSendState(
+    val isLoading: Boolean = true,
+    val message: String = "",
+    val data: List<Any>? = null
+)
+
 @HiltViewModel
 class MapViewModel @Inject constructor(
     private val locationRepository: LocationRepository
-): ViewModel() {
+) : ViewModel() {
     private val _friendsLocationState = MutableStateFlow(FriendsLocationState())
     val friendsLocationState = _friendsLocationState.asStateFlow()
+
+    private val _updateLocationState = MutableStateFlow(UpdateLocationState())
+    val updateLocationState = _updateLocationState.asStateFlow()
+
+    private val _sosSendState = MutableStateFlow(SOSSendState())
+    val sosSendState = _sosSendState.asStateFlow()
 
     fun getFriendsLocation(context: Context) {
         viewModelScope.launch {
@@ -37,7 +55,7 @@ class MapViewModel @Inject constructor(
             }
 
             locationRepository.getFriendsLocation(context).collectLatest { response ->
-                when(response) {
+                when (response) {
                     is Response.Success -> {
                         _friendsLocationState.update { state ->
                             state.copy(isLoading = false, data = response.data?.data)
@@ -46,7 +64,10 @@ class MapViewModel @Inject constructor(
 
                     is Response.Error -> {
                         _friendsLocationState.update { state ->
-                            state.copy(isLoading = false, message = response.data?.message ?: "Unknown Error")
+                            state.copy(
+                                isLoading = false,
+                                message = response.data?.message ?: "Unknown Error"
+                            )
                         }
                     }
 
@@ -62,21 +83,69 @@ class MapViewModel @Inject constructor(
 
     fun updateLocation(context: Context, request: LocationModel) {
         viewModelScope.launch {
+            _updateLocationState.update { state ->
+                state.copy(isLoading = true)
+            }
+
             locationRepository.updateLocation(context, request).collectLatest { response ->
-                when(response) {
+                when (response) {
                     is Response.Success -> {
-                        // Handle success
+                        _updateLocationState.update { state ->
+                            state.copy(isLoading = false, data = response.data?.data)
+                        }
                     }
 
                     is Response.Error -> {
-                        // Handle error
+                        _updateLocationState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                message = response.data?.message ?: "Unknown Error"
+                            )
+                        }
                     }
 
                     is Response.Loading -> {
-                        // Handle loading
+                        _updateLocationState.update { state ->
+                            state.copy(isLoading = true)
+                        }
                     }
                 }
             }
+        }
+
+    }
+
+    fun sendSOS(context: Context) {
+        viewModelScope.launch {
+            _sosSendState.update { state ->
+                state.copy(isLoading = true)
+            }
+
+            locationRepository.sos(context).collectLatest { response ->
+                when (response) {
+                    is Response.Success -> {
+                        _sosSendState.update { state ->
+                            state.copy(isLoading = false, data = response.data?.data)
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _sosSendState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                message = response.data?.message ?: "Unknown Error"
+                            )
+                        }
+                    }
+
+                    is Response.Loading -> {
+                        _sosSendState.update { state ->
+                            state.copy(isLoading = true)
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

@@ -10,4 +10,5 @@ import kotlinx.coroutines.flow.Flow
 interface LocationRepository {
     suspend fun getFriendsLocation(context: Context): Flow<Response<FriendsLocationResponse>>
     suspend fun updateLocation(context: Context, request: LocationModel): Flow<Response<UpdateLocationResponse>>
+    suspend fun sos(context: Context): Flow<Response<UpdateLocationResponse>>
 }

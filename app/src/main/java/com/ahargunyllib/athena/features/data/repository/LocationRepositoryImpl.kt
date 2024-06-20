@@ -90,4 +90,39 @@ class LocationRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun sos(context: Context): Flow<Response<UpdateLocationResponse>> {
+        return flow {
+            emit(Response.Loading())
+
+            try {
+                val token = userRepository.getToken()
+
+                val response = api.sos("Bearer $token")
+
+                Log.i("LocationRepositoryImpl.sos", "sos: $response")
+
+                when (response.statusCode) {
+                    200 -> {
+                        emit(Response.Loading(isLoading = false))
+                        emit(Response.Success(response))
+                        return@flow
+                    }
+                    else -> {
+                        emit(Response.Loading(isLoading = false))
+                        emit(Response.Error(response.message))
+
+                        Log.i("LocationRepositoryImpl.sos", "else: ${response.message}")
+                        return@flow
+                    }
+                }
+            } catch (e: Exception) {
+                emit(Response.Loading(isLoading = false))
+                emit(Response.Error(e.message ?: "An error occurred"))
+
+                Log.i("LocationRepositoryImpl.sos", "catch: ${e.message}")
+                return@flow
+            }
+        }
+    }
 }

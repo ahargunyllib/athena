@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -52,6 +53,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.ScaffoldDefaults.contentWindowInsets
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,11 +77,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -88,6 +98,7 @@ import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
 import com.ahargunyllib.athena.features.presentation.designSystem.Danger
+import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
@@ -143,6 +154,7 @@ fun MapScreen(
 ) {
     val mapViewModel: MapViewModel = hiltViewModel()
     val friendsLocationState = mapViewModel.friendsLocationState.collectAsState()
+    val sosSendState = mapViewModel.sosSendState.collectAsState()
 
     val profileViewModel: ProfileViewModel = hiltViewModel()
     val userState = profileViewModel.userState.collectAsState()
@@ -151,6 +163,8 @@ fun MapScreen(
     val cameraPositionState = rememberCameraPositionState()
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val permissions = listOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -161,8 +175,18 @@ fun MapScreen(
         mapViewModel.getFriendsLocation(context)
     }
 
+    if (sosSendState.value.data != null) {
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = "SOS sent. Please go to the safest area",
+                duration = SnackbarDuration.Long,
+                withDismissAction = true,
+            )
+        }
+    }
+
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) { it ->
         Box(
         ) {
@@ -217,7 +241,9 @@ fun MapScreen(
                                     painter = painterResource(id = R.drawable.dummy_avatar),
                                     contentDescription = "avatar",
                                     contentScale = ContentScale.Crop,
-                                    modifier = Modifier.size(32.dp).clip(CircleShape)
+                                    modifier = Modifier
+                                        .size(32.dp)
+                                        .clip(CircleShape)
                                 )
                             }
                         }
@@ -322,7 +348,7 @@ fun MapScreen(
                         Spacer(modifier = Modifier.height(12.dp))
                         IconButton(
                             onClick = {
-
+                                mapViewModel.sendSOS(context)
                             }, colors = IconButtonDefaults.iconButtonColors(
                                 containerColor = Color.White, contentColor = Color.Red
                             ), modifier = Modifier.size(56.dp)
@@ -436,60 +462,47 @@ fun MapScreen(
                         ) {
                             HorizontalDivider(
                                 modifier = Modifier.width(80.dp),
-                                color = Main,
+                                color = Gray,
                                 thickness = 4.dp
                             )
                         }
 
-                        Column {
-                            Text(
-                                "Status",
-                                style = Typography.titleLarge,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Row(
-                                horizontalArrangement = Arrangement.Start,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.North,
-                                    contentDescription = "North",
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                )
-                                Spacer(modifier = Modifier.width(16.dp))
+                        Box {
+                            Column {
                                 Text(
-                                    "North",
-                                    style = Typography.bodySmall,
-                                    fontWeight = FontWeight.SemiBold
+                                    "Status",
+                                    style = Typography.titleLarge,
+                                    fontWeight = FontWeight.Bold
                                 )
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Row(
-                                horizontalArrangement = Arrangement.Start,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.North,
-                                    contentDescription = "North",
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                )
-                                Spacer(modifier = Modifier.width(16.dp))
+                                Spacer(modifier = Modifier.height(16.dp))
                                 Text(
-                                    "North",
+                                    "Nothing to show here ",
                                     style = Typography.bodySmall,
-                                    fontWeight = FontWeight.SemiBold
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Gray,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.fillMaxWidth()
                                 )
+                                Spacer(modifier = Modifier.height(28.dp))
                             }
-                            Spacer(modifier = Modifier.height(28.dp))
+
+                            SnackbarHost(
+                                hostState = snackbarHostState,
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                            ) { snackbarData ->
+                                Snackbar(
+                                    snackbarData = snackbarData,
+                                    containerColor = Danger,
+                                    contentColor = Color.White,
+                                )
+
+                            }
                         }
                     }
 
                 }
             }
-
 
             PermissionBox(
                 permissions = permissions,
