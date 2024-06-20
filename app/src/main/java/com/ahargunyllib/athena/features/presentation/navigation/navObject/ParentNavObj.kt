@@ -7,4 +7,8 @@ sealed class ParentNavObj (val route: String) {
     data object ProfileNavObj : ParentNavObj("profile")
     data object EditProfileNavObj : ParentNavObj("editprofile")
     data object EditCredentialsNavObj : ParentNavObj("editcredentials")
+    data object PublicInformationNavObj: ParentNavObj("publicinformation")
+    data object ReportNavObj: ParentNavObj("report")
+    data object PostNavObj: ParentNavObj("post")
+    data object LocationPickerNavObj: ParentNavObj("locationpicker")
 }

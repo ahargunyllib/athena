@@ -188,7 +188,7 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isSharingLocation?.value ?: userState.value.data?.isSharingLocation
+                    checked = isSharingLocation.value ?: userState.value.data?.isSharingLocation
                     ?: false,
                     onCheckedChange = {
                         isSharingLocation.value = it
@@ -201,7 +201,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isSharingLocation?.value ?: userState.value.data?.isSharingLocation == true) {
+                        if (isSharingLocation.value ?: userState.value.data?.isSharingLocation == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",
@@ -262,7 +262,7 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isPauseAll?.value ?: userState.value.data?.isPauseAll ?: false,
+                    checked = isPauseAll.value ?: userState.value.data?.isPauseAll ?: false,
                     onCheckedChange = {
                         isPauseAll.value = it
                         profileViewModel.updateIsPauseAll(it)
@@ -274,7 +274,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isPauseAll?.value ?: userState.value.data?.isPauseAll == true) {
+                        if (isPauseAll.value ?: userState.value.data?.isPauseAll == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",
@@ -314,7 +314,7 @@ fun ProfileScreen(
                     )
                 }
                 Switch(
-                    checked = isShowNotification?.value ?: userState.value.data?.isShowNotification
+                    checked = isShowNotification.value ?: userState.value.data?.isShowNotification
                     ?: false,
                     onCheckedChange = {
                         isShowNotification.value = it
@@ -327,7 +327,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isShowNotification?.value ?: userState.value.data?.isShowNotification == true) {
+                        if (isShowNotification.value ?: userState.value.data?.isShowNotification == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",

@@ -164,19 +164,19 @@ class UserRepositoryImpl @Inject constructor(
                         userDAO.deleteUser()
                         userDAO.upsert(
                             UserEntity(
-                                user.userId ?: "",
-                                response.data?.fullName ?: "",
-                                response.data?.username ?: "",
-                                user.email ?: "",
-                                response.data?.phoneNumber ?: "",
-                                response.data?.dateOfBirth ?: "",
-                                user.token ?: "",
-                                user.isSharingLocation ?: false,
-                                user.isPauseAll ?: false,
-                                user.isShowNotification ?: false,
-                                response.data?.imageUrl ?: "",
-                                user.createdAt ?: "",
-                                user.updatedAt ?: ""
+                                user.userId,
+                                response.data.fullName,
+                                response.data.username,
+                                user.email,
+                                response.data.phoneNumber,
+                                response.data.dateOfBirth,
+                                user.token,
+                                user.isSharingLocation,
+                                user.isPauseAll,
+                                user.isShowNotification,
+                                response.data.imageUrl,
+                                user.createdAt,
+                                user.updatedAt
                             )
                         )
                         return@flow
@@ -223,19 +223,19 @@ class UserRepositoryImpl @Inject constructor(
                         userDAO.deleteUser()
                         userDAO.upsert(
                             UserEntity(
-                                user.userId ?: "",
-                                user.fullName ?: "",
-                                user.username ?: "",
-                                response.data?.email ?: "",
-                                user.phoneNumber ?: "",
-                                user.dateOfBirth ?: "",
-                                user.token ?: "",
-                                user.isSharingLocation ?: false,
-                                user.isPauseAll ?: false,
-                                user.isShowNotification ?: false,
-                                user.imageUrl ?: "",
-                                user.createdAt ?: "",
-                                user.updatedAt ?: ""
+                                user.userId,
+                                user.fullName,
+                                user.username,
+                                response.data.email,
+                                user.phoneNumber,
+                                user.dateOfBirth,
+                                user.token,
+                                user.isSharingLocation,
+                                user.isPauseAll,
+                                user.isShowNotification,
+                                user.imageUrl,
+                                user.createdAt,
+                                user.updatedAt
                             )
                         )
                         return@flow

@@ -15,6 +15,10 @@ import com.ahargunyllib.athena.features.presentation.screen.home.HomeViewModel
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.editCredentials.EditCredentialsScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.editProfile.EditProfileScreen
+import com.ahargunyllib.athena.features.presentation.screen.publicInformation.PublicInformationScreen
+import com.ahargunyllib.athena.features.presentation.screen.publicInformation.locationPicker.LocationPickerScreen
+import com.ahargunyllib.athena.features.presentation.screen.publicInformation.post.PostScreen
+import com.ahargunyllib.athena.features.presentation.screen.publicInformation.report.ReportScreen
 
 @Composable
 fun ParentNavHost() {
@@ -45,7 +49,11 @@ fun ParentNavHost() {
                 navArgument("friendId") { type = NavType.StringType },
             )
         ) {
-            ChatRoomScreen(parentNavController, it.arguments?.getString("chatRoomId") ?: "", it.arguments?.getString("friendId") ?: "")
+            ChatRoomScreen(
+                parentNavController,
+                it.arguments?.getString("chatRoomId") ?: "",
+                it.arguments?.getString("friendId") ?: ""
+            )
         }
 
         composable(ParentNavObj.ProfileNavObj.route) {
@@ -58,6 +66,48 @@ fun ParentNavHost() {
 
         composable(ParentNavObj.EditCredentialsNavObj.route) {
             EditCredentialsScreen(parentNavController)
+        }
+
+        composable(
+            "${ParentNavObj.PublicInformationNavObj.route}?latitude={latitude}&longitude={longitude}",
+            arguments = listOf(
+                navArgument("latitude") { type = NavType.FloatType },
+                navArgument("longitude") { type = NavType.FloatType },
+            )
+        ) {
+            PublicInformationScreen(
+                parentNavController,
+                it.arguments?.getFloat("latitude") ?: 0f,
+                it.arguments?.getFloat("longitude") ?: 0f
+            )
+        }
+
+        composable(
+            "${ParentNavObj.LocationPickerNavObj.route}?latitude={latitude}&longitude={longitude}",
+            arguments = listOf(
+                navArgument("latitude") { type = NavType.FloatType },
+                navArgument("longitude") { type = NavType.FloatType },
+            )
+        ) {
+            LocationPickerScreen(
+                parentNavController,
+                it.arguments?.getFloat("latitude") ?: 0f,
+                it.arguments?.getFloat("longitude") ?: 0f
+            )
+        }
+
+        composable(
+            "${ParentNavObj.ReportNavObj.route}/{publicInformationId}",
+            arguments = listOf(navArgument("publicInformationId") { type = NavType.StringType })
+        ) {
+            ReportScreen(parentNavController, it.arguments?.getString("publicInformationId") ?: "")
+        }
+
+        composable(
+            "${ParentNavObj.PostNavObj.route}/{publicInformationId}",
+            arguments = listOf(navArgument("publicInformationId") { type = NavType.StringType })
+        ) {
+            PostScreen(parentNavController, it.arguments?.getString("publicInformationId") ?: "")
         }
     }
 }

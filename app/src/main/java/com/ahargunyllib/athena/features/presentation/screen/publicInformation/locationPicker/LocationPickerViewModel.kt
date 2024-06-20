@@ -1,0 +1,3 @@
+package com.ahargunyllib.athena.features.presentation.screen.publicInformation.locationPicker
+
+class LocationPickerViewModel

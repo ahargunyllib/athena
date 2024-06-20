@@ -21,8 +21,7 @@ fun ComingSoonScreen(
     bottomNavController: NavController = rememberNavController(),
     onChangeScreen: (Int) -> Unit
 ) {
-    Scaffold(
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

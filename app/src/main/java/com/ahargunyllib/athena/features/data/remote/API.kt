@@ -9,6 +9,8 @@ import com.ahargunyllib.athena.features.data.remote.response.LoginResponse
 import com.ahargunyllib.athena.features.data.remote.response.MessagesResponse
 import com.ahargunyllib.athena.features.data.remote.response.MinUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
+import com.ahargunyllib.athena.features.data.remote.response.PublicInformationResponse
+import com.ahargunyllib.athena.features.data.remote.response.PublicInformationsResponse
 import com.ahargunyllib.athena.features.data.remote.response.RefreshTokenResponse
 import com.ahargunyllib.athena.features.data.remote.response.RegisterResponse
 import com.ahargunyllib.athena.features.data.remote.response.RejectFriendResponse
@@ -17,6 +19,8 @@ import com.ahargunyllib.athena.features.data.remote.response.SearchUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UpdateLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.UserRegisterResponse
 import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
+import com.ahargunyllib.athena.features.domain.model.CreateCommentModel
+import com.ahargunyllib.athena.features.domain.model.CreateReportModel
 import com.ahargunyllib.athena.features.domain.model.CredentialsModel
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.domain.model.LoginModel
@@ -134,5 +138,40 @@ interface API {
     @POST("/api/sos")
     suspend fun sos(
         @Header("Authorization") token: String
+    ): UpdateLocationResponse
+
+    @GET("/api/public-info")
+    suspend fun getPublicInformation(
+        @Header("Authorization") token: String
+    ): PublicInformationsResponse
+
+    @GET("/api/public-info/{publicInformationId}")
+    suspend fun getPublicInformationById(
+        @Header("Authorization") token: String,
+        @Path("publicInformationId") publicInformationId: String
+    ): PublicInformationResponse
+
+    @Multipart
+    @POST("/api/public-info")
+    suspend fun createPublicInformation(
+        @Header("Authorization") token: String,
+        @Part("latitude") latitude: RequestBody,
+        @Part("longitude") longitude: RequestBody,
+        @Part("content") content: RequestBody,
+        @Part avatar : MultipartBody.Part?,
+    ): UpdateLocationResponse
+
+    @POST("/api/public-info/{publicInformationId}/comment")
+    suspend fun createComment(
+        @Header("Authorization") token: String,
+        @Path("publicInformationId") publicInformationId: String,
+        @Body createCommentModel: CreateCommentModel
+    ): UpdateLocationResponse
+
+    @POST("/api/public-info/{publicInformationId}/report")
+    suspend fun reportPublicInformation(
+        @Header("Authorization") token: String,
+        @Path("publicInformationId") publicInformationId: String,
+        @Body createReportModel: CreateReportModel
     ): UpdateLocationResponse
 }

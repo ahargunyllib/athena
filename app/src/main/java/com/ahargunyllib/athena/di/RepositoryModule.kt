@@ -4,11 +4,13 @@ import com.ahargunyllib.athena.features.data.repository.AuthRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.ChatRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.FriendshipRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.LocationRepositoryImpl
+import com.ahargunyllib.athena.features.data.repository.PublicInformationRepositoryImpl
 import com.ahargunyllib.athena.features.data.repository.UserRepositoryImpl
 import com.ahargunyllib.athena.features.domain.repository.AuthRepository
 import com.ahargunyllib.athena.features.domain.repository.ChatRepository
 import com.ahargunyllib.athena.features.domain.repository.FriendshipRepository
 import com.ahargunyllib.athena.features.domain.repository.LocationRepository
+import com.ahargunyllib.athena.features.domain.repository.PublicInformationRepository
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -38,4 +40,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindChatRepository(chatRepositoryImpl: ChatRepositoryImpl): ChatRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPublicInformationRepository(publicInformationRepositoryImpl: PublicInformationRepositoryImpl): PublicInformationRepository
 }

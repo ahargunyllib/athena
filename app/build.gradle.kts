@@ -122,6 +122,12 @@ dependencies {
     // noinspection UseTomlInstead
     implementation("io.coil-kt:coil-compose:2.6.0")
 
+    // Glide
+    // noinspection UseTomlInstead
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    // noinspection UseTomlInstead
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
     // SplashScreen
     // noinspection UseTomlInstead
     implementation("androidx.core:core-splashscreen:1.0.1")

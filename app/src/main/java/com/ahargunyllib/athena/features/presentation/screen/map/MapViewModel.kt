@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.remote.response.FriendLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendsLocationResponse
+import com.ahargunyllib.athena.features.data.remote.response.MinPublicInformation
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.domain.repository.LocationRepository
+import com.ahargunyllib.athena.features.domain.repository.PublicInformationRepository
 import com.ahargunyllib.athena.features.utils.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,9 +37,16 @@ data class SOSSendState(
     val data: List<Any>? = null
 )
 
+data class PublicInformationState(
+    val isLoading: Boolean = true,
+    val message: String = "",
+    val data: List<MinPublicInformation>? = null
+)
+
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val publicInformationRepository: PublicInformationRepository
 ) : ViewModel() {
     private val _friendsLocationState = MutableStateFlow(FriendsLocationState())
     val friendsLocationState = _friendsLocationState.asStateFlow()
@@ -47,6 +56,9 @@ class MapViewModel @Inject constructor(
 
     private val _sosSendState = MutableStateFlow(SOSSendState())
     val sosSendState = _sosSendState.asStateFlow()
+
+    private val _publicInformationState = MutableStateFlow(PublicInformationState())
+    val publicInformationState = _publicInformationState.asStateFlow()
 
     fun getFriendsLocation(context: Context) {
         viewModelScope.launch {
@@ -146,6 +158,39 @@ class MapViewModel @Inject constructor(
                 }
             }
 
+        }
+    }
+
+    fun getPublicInformation(context: Context) {
+        viewModelScope.launch {
+            _publicInformationState.update { state ->
+                state.copy(isLoading = true)
+            }
+
+            publicInformationRepository.getPublicInformation(context).collectLatest { response ->
+                when (response) {
+                    is Response.Success -> {
+                        _publicInformationState.update { state ->
+                            state.copy(isLoading = false, data = response.data?.data)
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _publicInformationState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                message = response.data?.message ?: "Unknown Error"
+                            )
+                        }
+                    }
+
+                    is Response.Loading -> {
+                        _publicInformationState.update { state ->
+                            state.copy(isLoading = true)
+                        }
+                    }
+                }
+            }
         }
     }
 }
