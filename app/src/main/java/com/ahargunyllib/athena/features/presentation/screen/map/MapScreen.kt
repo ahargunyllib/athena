@@ -159,12 +159,45 @@ fun MapScreen(
     val profileViewModel: ProfileViewModel = hiltViewModel()
     val userState = profileViewModel.userState.collectAsState()
 
-    val currentLocation = remember { mutableStateOf<LocationModel?>(null) }
-    val cameraPositionState = rememberCameraPositionState()
-
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val fusedLocationClient: FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(
+            context as Activity
+        )
+
+    val currentLocation = remember {
+        mutableStateOf(
+            LocationModel(
+                latitude = 0f,
+                longitude = 0f
+            )
+        )
+    }
+
+    fusedLocationClient.lastLocation.addOnSuccessListener {
+        it?.let {
+            currentLocation.value = LocationModel(
+                latitude = it.latitude.toFloat(),
+                longitude = it.longitude.toFloat()
+            )
+        }
+    }
+
+    val cameraPositionState = mutableStateOf(
+        CameraPositionState(
+            position = CameraPosition(
+                LatLng(
+                    currentLocation.value.latitude.toDouble(),
+                    currentLocation.value.longitude.toDouble()
+                ),
+                16f,
+                0f,
+                0f
+            )
+        )
+    )
 
     val permissions = listOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -201,7 +234,7 @@ fun MapScreen(
                     isBuildingEnabled = false,
                     isIndoorEnabled = false,
                 ),
-                cameraPositionState = cameraPositionState,
+                cameraPositionState = cameraPositionState.value,
                 googleMapOptionsFactory = {
                     GoogleMapOptions()
                 },
@@ -306,12 +339,19 @@ fun MapScreen(
                         IconButton(
                             onClick = {
                                 // change camera position state to north
-                                cameraPositionState.position =
-                                    CameraPosition(
-                                        cameraPositionState.position.target,
-                                        cameraPositionState.position.zoom,
-                                        0f,
-                                        0f
+                                cameraPositionState.value =
+                                    CameraPositionState(
+                                        position = CameraPosition(
+                                            LatLng(
+                                                cameraPositionState.value?.position?.target?.latitude?.toDouble()
+                                                    ?: 0.0,
+                                                cameraPositionState.value?.position?.target?.longitude?.toDouble()
+                                                    ?: 0.0
+                                            ),
+                                            cameraPositionState.value.position.zoom,
+                                            0f,
+                                            0f
+                                        )
                                     )
 
                             }, colors = IconButtonDefaults.iconButtonColors(
@@ -400,11 +440,7 @@ fun MapScreen(
                             Spacer(modifier = Modifier.width(12.dp))
                             IconButton(
                                 onClick = {
-                                    Toast.makeText(
-                                        context,
-                                        "This feature is currently disabled",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    parentController.navigate("${ParentNavObj.PublicInformationNavObj.route}?latitude=${currentLocation.value?.latitude}&longitude=${currentLocation.value?.longitude}")
                                 }, colors = IconButtonDefaults.iconButtonColors(
                                     containerColor = Main, contentColor = Color.White
                                 ), modifier = Modifier.size(56.dp)
@@ -421,19 +457,27 @@ fun MapScreen(
 
                         IconButton(
                             onClick = {
-                                // move camera position state to current location
-                                cameraPositionState.isMoving
-                                cameraPositionState.position =
-                                    CameraPosition(
-                                        LatLng(
-                                            currentLocation.value?.latitude?.toDouble() ?: 0.0,
-                                            currentLocation.value?.longitude?.toDouble() ?: 0.0
-                                        ),
+                                // Use current location
+                                fusedLocationClient.lastLocation.addOnSuccessListener {
+                                    it?.let {
+                                        currentLocation.value = LocationModel(
+                                            latitude = it.latitude.toFloat(),
+                                            longitude = it.longitude.toFloat()
+                                        )
 
-                                        15f,
-                                        cameraPositionState.position.bearing,
-                                        cameraPositionState.position.tilt
-                                    )
+                                        cameraPositionState.value = CameraPositionState(
+                                            position = CameraPosition(
+                                                LatLng(
+                                                    it.latitude,
+                                                    it.longitude
+                                                ),
+                                                16f,
+                                                0f,
+                                                0f
+                                            )
+                                        )
+                                    }
+                                }
 
                             }, colors = IconButtonDefaults.iconButtonColors(
                                 containerColor = Color.White, contentColor = Main
@@ -528,9 +572,6 @@ fun MapScreen(
 
                         // Get friends location
                         mapViewModel.getFriendsLocation(context)
-
-                        // Update the current location
-                        currentLocation.value = lastLocation
                     }
                 }
 
