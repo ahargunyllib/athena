@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -150,6 +151,8 @@ fun EditCredentialsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White)
                         .padding(horizontal = 14.dp, vertical = (12.5).dp),
                     enabled = false
                 )
@@ -173,6 +176,8 @@ fun EditCredentialsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White)
                         .padding(horizontal = 14.dp, vertical = (12.5).dp),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -192,6 +197,8 @@ fun EditCredentialsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White)
                         .padding(horizontal = 14.dp, vertical = (12.5).dp),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -211,6 +218,8 @@ fun EditCredentialsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White)
                         .padding(horizontal = 14.dp, vertical = (12.5).dp),
                 )
                 Spacer(modifier = Modifier.height(24.dp))
