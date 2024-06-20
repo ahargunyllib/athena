@@ -1,4 +1,4 @@
-package com.ahargunyllib.athena.features.presentation.designSystem.components
+package com.ahargunyllib.athena.features.presentation.widget
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
