@@ -27,3 +27,9 @@ data class UpdateModel(
     val dateOfBirth: String,
     val imageUri: Uri
 )
+
+data class CredentialsModel(
+    val email: String,
+    val password: String,
+    val confirmPassword: String
+)

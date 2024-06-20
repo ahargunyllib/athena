@@ -94,18 +94,18 @@ class RegisterViewModel @Inject constructor(
                 return@launch
             }
 
-            // validate password
-            if (request.password.isEmpty()) {
-                _registerState.update {
-                    it.copy(isLoading = false, message = "Password is required")
+                // validate password
+                if (request.password.isEmpty()) {
+                    _registerState.update {
+                        it.copy(isLoading = false, message = "Password is required")
+                    }
+                    return@launch
+                } else if (request.password.length < 6) {
+                    _registerState.update {
+                        it.copy(isLoading = false, message = "Password must be at least 6 characters")
+                    }
+                    return@launch
                 }
-                return@launch
-            } else if (request.password.length < 6) {
-                _registerState.update {
-                    it.copy(isLoading = false, message = "Password must be at least 6 characters")
-                }
-                return@launch
-            }
 
             // validate confirmPassword
             if (request.confirmPassword.isEmpty()) {

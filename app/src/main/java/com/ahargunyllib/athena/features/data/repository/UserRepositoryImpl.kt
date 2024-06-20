@@ -11,6 +11,7 @@ import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.RegisterResponse
 import com.ahargunyllib.athena.features.data.remote.response.UserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
+import com.ahargunyllib.athena.features.domain.model.CredentialsModel
 import com.ahargunyllib.athena.features.domain.model.UpdateModel
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import com.ahargunyllib.athena.features.utils.Response
@@ -174,6 +175,65 @@ class UserRepositoryImpl @Inject constructor(
                                 user.isPauseAll ?: false,
                                 user.isShowNotification ?: false,
                                 response.data?.imageUrl ?: "",
+                                user.createdAt ?: "",
+                                user.updatedAt ?: ""
+                            )
+                        )
+                        return@flow
+                    }
+
+                    else -> {
+                        emit(Response.Loading(isLoading = false))
+                        emit(Response.Error(response.message))
+                        return@flow
+                    }
+                }
+            } catch (e: Exception) {
+                emit(Response.Loading(isLoading = false))
+                emit(Response.Error(e.message ?: "An error occurred"))
+            }
+        }
+    }
+
+    override suspend fun updateCredentials(
+        context: Context,
+        updateCredentialsModel: CredentialsModel
+    ): Flow<Response<RegisterResponse>> {
+        return flow {
+            emit(Response.Loading())
+
+            try {
+                val token = getToken()
+
+                val response = api.updateCredentials(
+                    token = "Bearer $token",
+                    credentialsModel = updateCredentialsModel
+                )
+
+                Log.i("UserRepositoryImpl", "updateCredentials: ${response.message}")
+
+                when (response.statusCode) {
+                    200 -> {
+                        emit(Response.Loading(isLoading = false))
+                        emit(Response.Success(response))
+
+                        val userDAO = db.getUserDAO()
+                        val user = userDAO.getUser()
+
+                        userDAO.deleteUser()
+                        userDAO.upsert(
+                            UserEntity(
+                                user.userId ?: "",
+                                user.fullName ?: "",
+                                user.username ?: "",
+                                response.data?.email ?: "",
+                                user.phoneNumber ?: "",
+                                user.dateOfBirth ?: "",
+                                user.token ?: "",
+                                user.isSharingLocation ?: false,
+                                user.isPauseAll ?: false,
+                                user.isShowNotification ?: false,
+                                user.imageUrl ?: "",
                                 user.createdAt ?: "",
                                 user.updatedAt ?: ""
                             )

@@ -112,7 +112,7 @@ fun InfoDialog(
                     Icon(
                         imageVector = Icons.Outlined.ErrorOutline,
                         contentDescription = "Error",
-                        tint = Color.Red,
+                        tint = Danger,
                         modifier = Modifier.size(80.dp),
                     )
                     Spacer(modifier = Modifier.height(10.dp))
@@ -124,7 +124,7 @@ fun InfoDialog(
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "An error occurred while registering your account. Please try again.",
+                        text = "An error occurred while registering your account.",
                         style = Typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
@@ -150,14 +150,87 @@ fun InfoDialog(
                         )
                     ) {
                         Text(
-                            "Retry",
+                            "Close",
                             style = Typography.labelMedium,
                             fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
             }
-
         }
     }
 }
+
+@Composable
+fun ErrorDialog(
+    registerState: State<RegisterState>,
+    showInfoDialog: MutableState<Boolean>
+) {
+    Dialog(onDismissRequest = {
+        showInfoDialog.value = false
+    }) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 8.dp,
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.ErrorOutline,
+                    contentDescription = "Error",
+                    tint = Danger,
+                    modifier = Modifier.size(80.dp),
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    "ERROR!",
+                    style = Typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Danger
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "An error occurred while registering your account.",
+                    style = Typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = registerState.value.message,
+                    style = Typography.bodySmall,
+                    fontWeight = FontWeight.Normal,
+                    color = Gray,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        showInfoDialog.value = false
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(20.dp)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Danger
+                    )
+                ) {
+                    Text(
+                        "Close",
+                        style = Typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+        }
+    }
+}
+

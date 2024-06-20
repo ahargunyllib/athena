@@ -17,6 +17,7 @@ import com.ahargunyllib.athena.features.data.remote.response.SearchUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UpdateLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.UserRegisterResponse
 import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
+import com.ahargunyllib.athena.features.domain.model.CredentialsModel
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.domain.model.LoginModel
 import com.ahargunyllib.athena.features.domain.model.RegisterModel
@@ -122,5 +123,11 @@ interface API {
         @Part("phoneNumber") phoneNumber: RequestBody,
         @Part("dateOfBirth") dateOfBirth: RequestBody,
         @Part avatar : MultipartBody.Part?,
+    ): RegisterResponse
+
+    @PUT("/api/user/update-credentials")
+    suspend fun updateCredentials(
+        @Header("Authorization") token: String,
+        @Body credentialsModel: CredentialsModel
     ): RegisterResponse
 }

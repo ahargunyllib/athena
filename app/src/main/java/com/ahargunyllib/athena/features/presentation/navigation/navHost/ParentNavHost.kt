@@ -17,6 +17,7 @@ import com.ahargunyllib.athena.features.presentation.screen.chat.chatRoom.ChatRo
 import com.ahargunyllib.athena.features.presentation.screen.home.HomeViewModel
 import com.ahargunyllib.athena.features.presentation.screen.home.UserState
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileScreen
+import com.ahargunyllib.athena.features.presentation.screen.profile.editCredentials.EditCredentialsScreen
 import com.ahargunyllib.athena.features.presentation.screen.profile.editProfile.EditProfileScreen
 
 @Composable
@@ -57,6 +58,10 @@ fun ParentNavHost() {
 
         composable(ParentNavObj.EditProfileNavObj.route) {
             EditProfileScreen(parentNavController)
+        }
+
+        composable(ParentNavObj.EditCredentials.route) {
+            EditCredentialsScreen(parentNavController)
         }
     }
 }

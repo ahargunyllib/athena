@@ -157,13 +157,7 @@ fun ProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        Toast
-                            .makeText(
-                                context,
-                                "This feature is currently disabled",
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        parentController.navigate(ParentNavObj.EditCredentials.route)
                     }
             ) {
                 Text(
