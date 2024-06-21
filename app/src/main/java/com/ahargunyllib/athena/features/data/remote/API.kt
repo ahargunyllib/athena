@@ -7,7 +7,6 @@ import com.ahargunyllib.athena.features.data.remote.response.FriendListResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendsLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.LoginResponse
 import com.ahargunyllib.athena.features.data.remote.response.MessagesResponse
-import com.ahargunyllib.athena.features.data.remote.response.MinUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.PublicInformationResponse
 import com.ahargunyllib.athena.features.data.remote.response.PublicInformationsResponse
@@ -17,8 +16,6 @@ import com.ahargunyllib.athena.features.data.remote.response.RejectFriendRespons
 import com.ahargunyllib.athena.features.data.remote.response.RemoveFriendResponse
 import com.ahargunyllib.athena.features.data.remote.response.SearchUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.UpdateLocationResponse
-import com.ahargunyllib.athena.features.data.remote.response.UserRegisterResponse
-import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
 import com.ahargunyllib.athena.features.domain.model.CreateCommentModel
 import com.ahargunyllib.athena.features.domain.model.CreateReportModel
 import com.ahargunyllib.athena.features.domain.model.CredentialsModel

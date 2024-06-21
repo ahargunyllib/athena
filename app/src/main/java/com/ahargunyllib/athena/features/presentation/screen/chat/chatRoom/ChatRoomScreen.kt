@@ -2,14 +2,10 @@ package com.ahargunyllib.athena.features.presentation.screen.chat.chatRoom
 
 import android.annotation.SuppressLint
 import android.text.format.DateFormat
-import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,12 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,7 +31,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -46,14 +38,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -63,22 +52,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLight
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
-import com.ahargunyllib.athena.features.presentation.navigation.navObject.BottomNavObj
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
-import java.text.SimpleDateFormat
 import java.time.Instant
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Date
 
 @SuppressLint("SimpleDateFormat")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatRoomScreen(
     parentController: NavController,
@@ -86,7 +70,6 @@ fun ChatRoomScreen(
     friendId: String
 ) {
     val message = remember { mutableStateOf("") }
-    val context = LocalContext.current
 
     val chatRoomViewModel: ChatRoomViewModel = hiltViewModel()
     val messagesState = chatRoomViewModel.messagesState.collectAsState()
@@ -94,8 +77,8 @@ fun ChatRoomScreen(
 
     LaunchedEffect(Unit) {
         chatRoomViewModel.initializeSocket(chatRoomId)
-        chatRoomViewModel.getMessages(context, chatRoomId)
-        chatRoomViewModel.getFriend(context, friendId)
+        chatRoomViewModel.getMessages(chatRoomId)
+        chatRoomViewModel.getFriend(friendId)
     }
 
     Scaffold(

@@ -3,7 +3,6 @@ package com.ahargunyllib.athena.features.data.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.ahargunyllib.athena.features.data.local.UserEntity
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.PublicInformationResponse
 import com.ahargunyllib.athena.features.data.remote.response.PublicInformationsResponse
@@ -24,7 +23,7 @@ class PublicInformationRepositoryImpl @Inject constructor(
     private val api: API,
     private val userRepository: UserRepository
 ) : PublicInformationRepository {
-    override suspend fun getPublicInformation(context: Context): Flow<Response<PublicInformationsResponse>> {
+    override suspend fun getPublicInformation(): Flow<Response<PublicInformationsResponse>> {
         return flow {
             emit(Response.Loading())
 
@@ -56,7 +55,6 @@ class PublicInformationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPublicInformationById(
-        context: Context,
         publicInformationId: String
     ): Flow<Response<PublicInformationResponse>> {
         return flow {
@@ -137,7 +135,6 @@ class PublicInformationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createComment(
-        context: Context,
         createCommentModel: CreateCommentModel,
         publicInformationId: String
     ): Flow<Response<UpdateLocationResponse>> {
@@ -174,7 +171,6 @@ class PublicInformationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun reportPublicInformation(
-        context: Context,
         createReportModel: CreateReportModel,
         publicInformationId: String
     ): Flow<Response<UpdateLocationResponse>> {

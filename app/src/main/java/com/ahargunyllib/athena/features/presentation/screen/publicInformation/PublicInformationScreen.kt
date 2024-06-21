@@ -17,19 +17,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.BasicSecureTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,7 +52,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ahargunyllib.athena.features.domain.model.CreatePublicInformationModel
-import com.ahargunyllib.athena.features.domain.model.CredentialsModel
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
 import com.ahargunyllib.athena.features.presentation.designSystem.Border
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
@@ -64,8 +59,6 @@ import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLight
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
-import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileViewModel
-import com.ahargunyllib.athena.features.presentation.widget.ErrorDialog
 import com.ahargunyllib.athena.features.utils.getFileFromUri
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition

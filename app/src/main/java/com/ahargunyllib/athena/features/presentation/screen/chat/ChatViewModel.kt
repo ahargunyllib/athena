@@ -1,12 +1,9 @@
 package com.ahargunyllib.athena.features.presentation.screen.chat
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.remote.response.ChatRoom
-import com.ahargunyllib.athena.features.data.remote.response.FriendListResponse
-import com.ahargunyllib.athena.features.data.remote.response.FriendResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendshipResponse
 import com.ahargunyllib.athena.features.data.remote.response.FriendshipStatus
 import com.ahargunyllib.athena.features.data.remote.response.MinUserResponse
@@ -54,13 +51,13 @@ class ChatViewModel @Inject constructor(
     private val _chatRoomsState = MutableStateFlow(ChatRoomsState())
     val chatRoomsState = _chatRoomsState.asStateFlow()
 
-    fun getFriendList(context: Context) {
+    fun getFriendList() {
         viewModelScope.launch {
             _friendListState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            friendshipRepository.getFriendList(context).collectLatest { response ->
+            friendshipRepository.getFriendList().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i(
@@ -92,13 +89,13 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun searchUser(context: Context, username: String) {
+    fun searchUser(username: String) {
         viewModelScope.launch {
             _searchUserState.update {state ->
                 state.copy(isLoading = true)
             }
 
-            friendshipRepository.searchUser(context, username).collectLatest { response ->
+            friendshipRepository.searchUser(username).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i("ChatViewModel.searchUser.Success", "searchUser: ${response.data}")
@@ -127,9 +124,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun removeFriend(context: Context, userId: String) {
+    fun removeFriend(userId: String) {
         viewModelScope.launch {
-            friendshipRepository.removeFriend(context, userId).collectLatest { response ->
+            friendshipRepository.removeFriend(userId).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i(
@@ -158,9 +155,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun acceptFriend(context: Context, userId: String) {
+    fun acceptFriend(userId: String) {
         viewModelScope.launch {
-            friendshipRepository.acceptFriend(context, userId).collectLatest { response ->
+            friendshipRepository.acceptFriend(userId).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i(
@@ -193,9 +190,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun rejectFriend(context: Context, userId: String) {
+    fun rejectFriend(userId: String) {
         viewModelScope.launch {
-            friendshipRepository.rejectFriend(context, userId).collectLatest { response ->
+            friendshipRepository.rejectFriend(userId).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i(
@@ -224,9 +221,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun addFriend(context: Context, userId: String) {
+    fun addFriend(userId: String) {
         viewModelScope.launch {
-            friendshipRepository.addFriendRequest(context, userId).collectLatest { response ->
+            friendshipRepository.addFriendRequest(userId).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i(
@@ -255,13 +252,13 @@ class ChatViewModel @Inject constructor(
         _searchUserState.value = SearchUserState()
     }
 
-    fun getChatRooms(context: Context) {
+    fun getChatRooms() {
         viewModelScope.launch {
             _chatRoomsState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            chatRepository.getChatRooms(context).collectLatest { response ->
+            chatRepository.getChatRooms().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         Log.i(

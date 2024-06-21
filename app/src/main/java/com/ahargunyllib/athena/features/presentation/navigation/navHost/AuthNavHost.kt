@@ -26,7 +26,7 @@ fun AuthNavHost(
         }
 
         composable(AuthNavObj.Splash1NavObj.route) {
-            SplashScreen1(authController = authController, parentController = parentController)
+            SplashScreen1(authController = authController)
         }
 
         composable(AuthNavObj.LoginNavObj.route) {

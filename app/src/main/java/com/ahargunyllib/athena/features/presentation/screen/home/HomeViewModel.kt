@@ -1,10 +1,8 @@
 package com.ahargunyllib.athena.features.presentation.screen.home
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.local.UserEntity
-import com.ahargunyllib.athena.features.data.remote.response.UserLoginResponse
 import com.ahargunyllib.athena.features.domain.repository.AuthRepository
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import com.ahargunyllib.athena.features.utils.Response
@@ -38,6 +36,7 @@ class HomeViewModel @Inject constructor(
     val userState = _userState.asStateFlow()
 
     private val _tokenState = MutableStateFlow(TokenState())
+    @Suppress("unused")
     val tokenState = _tokenState.asStateFlow()
 
     init {

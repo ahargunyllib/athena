@@ -1,8 +1,6 @@
 package com.ahargunyllib.athena.features.domain.model
 
-import android.graphics.Bitmap
 import android.net.Uri
-import okhttp3.MultipartBody
 
 
 data class RegisterModel(

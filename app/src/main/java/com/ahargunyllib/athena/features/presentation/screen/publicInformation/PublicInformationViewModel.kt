@@ -1,17 +1,14 @@
 package com.ahargunyllib.athena.features.presentation.screen.publicInformation
 
 import android.content.Context
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ahargunyllib.athena.features.data.remote.response.PublicInformationsResponse
 import com.ahargunyllib.athena.features.domain.model.CreatePublicInformationModel
 import com.ahargunyllib.athena.features.domain.repository.PublicInformationRepository
 import com.ahargunyllib.athena.features.utils.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject

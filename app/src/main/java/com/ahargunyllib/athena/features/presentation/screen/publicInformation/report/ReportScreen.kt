@@ -1,7 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.publicInformation.report
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,17 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.BasicSecureTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,8 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,15 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ahargunyllib.athena.features.domain.model.CreateReportModel
-import com.ahargunyllib.athena.features.domain.model.CredentialsModel
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
-import com.ahargunyllib.athena.features.presentation.designSystem.Border
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLight
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
-import com.ahargunyllib.athena.features.presentation.widget.ErrorDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,8 +60,6 @@ fun ReportScreen(
 
     val reason = remember { mutableStateOf("") }
     val confirmation = remember { mutableStateOf("") }
-
-    val context = LocalContext.current
 
     LaunchedEffect(reportState.value.data != null) {
         if (reportState.value.data != null) {
@@ -207,7 +195,6 @@ fun ReportScreen(
                 onClick = {
                     if (confirmation.value == "I wrote this because the post seems to be misleading") {
                         reportViewModel.createReport(
-                            context,
                             CreateReportModel(
                                 reason = reason.value
                             ),

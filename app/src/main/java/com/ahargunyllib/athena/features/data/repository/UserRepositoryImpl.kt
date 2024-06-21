@@ -3,14 +3,11 @@ package com.ahargunyllib.athena.features.data.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.ahargunyllib.athena.features.data.local.UserDAO
 import com.ahargunyllib.athena.features.data.local.UserDatabase
 import com.ahargunyllib.athena.features.data.local.UserEntity
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.RegisterResponse
-import com.ahargunyllib.athena.features.data.remote.response.UserResponse
-import com.ahargunyllib.athena.features.data.remote.response.UsersResponse
 import com.ahargunyllib.athena.features.domain.model.CredentialsModel
 import com.ahargunyllib.athena.features.domain.model.UpdateModel
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
@@ -18,10 +15,7 @@ import com.ahargunyllib.athena.features.utils.Response
 import com.ahargunyllib.athena.features.utils.prepareFilePart
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -95,7 +89,6 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUser(
-        context: Context,
         userId: String
     ): Flow<Response<ProfileUserResponse>> {
         return flow {
@@ -196,7 +189,6 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateCredentials(
-        context: Context,
         updateCredentialsModel: CredentialsModel
     ): Flow<Response<RegisterResponse>> {
         return flow {

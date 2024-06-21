@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.data.repository
 
-import android.content.Context
 import android.util.Log
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.FriendsLocationResponse
@@ -18,7 +17,7 @@ class LocationRepositoryImpl @Inject constructor(
     private val api: API,
     private val userRepository: UserRepository
 ) : LocationRepository {
-    override suspend fun getFriendsLocation(context: Context): Flow<Response<FriendsLocationResponse>> {
+    override suspend fun getFriendsLocation(): Flow<Response<FriendsLocationResponse>> {
         return flow {
             emit(Response.Loading())
 
@@ -54,7 +53,6 @@ class LocationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateLocation(
-        context: Context,
         request: LocationModel
     ): Flow<Response<UpdateLocationResponse>> {
         return flow {
@@ -91,7 +89,7 @@ class LocationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sos(context: Context): Flow<Response<UpdateLocationResponse>> {
+    override suspend fun sos(): Flow<Response<UpdateLocationResponse>> {
         return flow {
             emit(Response.Loading())
 

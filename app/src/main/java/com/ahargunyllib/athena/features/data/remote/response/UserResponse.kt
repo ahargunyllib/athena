@@ -11,12 +11,6 @@ data class User(
     val email: String,
 )
 
-data class UsersResponse(
-    @SerializedName("status") val status: Int,
-    @SerializedName("message") val message: String,
-    @SerializedName("data") val data: List<User>
-)
-
 data class UserResponse(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val message: String,

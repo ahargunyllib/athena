@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text2.BasicSecureTextField
-import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.CheckCircle
@@ -66,7 +65,6 @@ import com.ahargunyllib.athena.features.presentation.designSystem.Main
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.AuthNavObj
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
-import com.ahargunyllib.athena.features.presentation.screen.auth.register.RegisterState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -91,10 +89,11 @@ fun LoginScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
-    ) { it ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(horizontal = 20.dp, vertical = 56.dp),
         ) {
             Icon(
@@ -188,7 +187,6 @@ fun LoginScreen(
                 shape = RoundedCornerShape(10.dp),
                 onClick = {
                     loginViewModel.login(
-                        context,
                         LoginModel(
                             email = email.value,
                             password = password.value,

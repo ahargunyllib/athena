@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLocation">
+        <ignore path="C:/Billy/Personal/Projects/athena/app/src/main/res/drawable/dummy_avatar.png" />
+        <ignore path="C:/Billy/Personal/Projects/athena/app/src/main/res/drawable/splash_1.png" />
+        <ignore path="C:/Billy/Personal/Projects/athena/app/src/main/res/drawable/splash_2.png" />
+        <ignore path="C:/Billy/Personal/Projects/athena/app/src/main/res/drawable/splash_3.png" />
+    </issue>
+</lint>

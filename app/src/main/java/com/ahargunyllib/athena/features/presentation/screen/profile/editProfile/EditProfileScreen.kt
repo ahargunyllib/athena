@@ -90,7 +90,6 @@ fun EditProfileScreen(
 
 
     val showDateDialog = remember { mutableStateOf(false) }
-    val showInfoDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     val imageUri = remember { mutableStateOf<Uri?>(null) }
@@ -135,193 +134,191 @@ fun EditProfileScreen(
                 color = Main
             )
         } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MainLight)
-                .padding(horizontal = 20.dp)
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AsyncImage(
-                model = imageUri.value ?: userState.value.data?.imageUrl ?: "",
-                contentDescription = "avatar",
-                contentScale = ContentScale.Crop,
+            Column(
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .size(92.dp)
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Button(
-                onClick = {
-                    singlePhotoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Main
-                )
+                    .fillMaxSize()
+                    .background(MainLight)
+                    .padding(horizontal = 20.dp)
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Change Profile", style = Typography.labelSmall)
-            }
-            Spacer(modifier = Modifier.size(48.dp))
-            Text(
-                text = "Full Name",
-                color = Gray,
-                style = Typography.bodySmall,
-                textAlign = TextAlign.Left,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField(
-                value = fullName.value ?: userState.value.data?.fullName ?: "",
-                onValueChange = { fullName.value = it },
-                textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, RoundedCornerShape(10.dp))
-                    .border(1.dp, Border, RoundedCornerShape(10.dp))
-                    .background(Color.White, RoundedCornerShape(10.dp))
-                    .padding(horizontal = 14.dp, vertical = (12.5).dp),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Username",
-                color = Gray,
-                style = Typography.bodySmall,
-                textAlign = TextAlign.Left,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField(
-                value = username.value ?: userState.value.data?.username ?: "",
-                onValueChange = { username.value = it },
-                textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, Border, RoundedCornerShape(10.dp))
-                    .background(Color.White, RoundedCornerShape(10.dp))
-                    .padding(horizontal = 14.dp, vertical = (12.5).dp),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Birth of Date",
-                color = Gray,
-                style = Typography.bodySmall,
-                textAlign = TextAlign.Left,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .border(1.dp, Border, RoundedCornerShape(10.dp))
-                    .background(Color.White, RoundedCornerShape(10.dp))
-                    .padding(horizontal = 14.dp)
-            ) {
-                Text(
-                    text = millisToLocalDate?.toString() ?: userState.value.data?.dateOfBirth?.let { dateString ->
-                        val date = Date.from(Instant.parse(dateString))
-                        DateFormat.format("dd/MM/yyyy", date)
-                    }.toString(),
-                    color = Typography.bodyMedium.color,
-                    style = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
-                    textAlign = TextAlign.Left,
-                    modifier = Modifier.clickable {
-                        showDateDialog.value = true
-                    }
+                AsyncImage(
+                    model = imageUri.value ?: userState.value.data?.imageUrl ?: "",
+                    contentDescription = "avatar",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(92.dp)
                 )
-                IconButton(
+                Spacer(modifier = Modifier.size(8.dp))
+                Button(
                     onClick = {
-                        showDateDialog.value = true
-                    }
+                        singlePhotoPickerLauncher.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Main
+                    )
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.CalendarMonth,
-                        contentDescription = "Choose Date",
-                        tint = Gray,
-                        modifier = Modifier.size(24.dp)
+                    Text(text = "Change Profile", style = Typography.labelSmall)
+                }
+                Spacer(modifier = Modifier.size(48.dp))
+                Text(
+                    text = "Full Name",
+                    color = Gray,
+                    style = Typography.bodySmall,
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                BasicTextField(
+                    value = fullName.value ?: userState.value.data?.fullName ?: "",
+                    onValueChange = { fullName.value = it },
+                    textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                        .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                        .padding(horizontal = 14.dp, vertical = (12.5).dp),
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Username",
+                    color = Gray,
+                    style = Typography.bodySmall,
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                BasicTextField(
+                    value = username.value ?: userState.value.data?.username ?: "",
+                    onValueChange = { username.value = it },
+                    textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                        .padding(horizontal = 14.dp, vertical = (12.5).dp),
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Birth of Date",
+                    color = Gray,
+                    style = Typography.bodySmall,
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                        .padding(horizontal = 14.dp)
+                ) {
+                    Text(
+                        text = millisToLocalDate?.toString()
+                            ?: userState.value.data?.dateOfBirth?.let { dateString ->
+                                val date = Date.from(Instant.parse(dateString))
+                                DateFormat.format("dd/MM/yyyy", date)
+                            }.toString(),
+                        color = Typography.bodyMedium.color,
+                        style = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.clickable {
+                            showDateDialog.value = true
+                        }
+                    )
+                    IconButton(
+                        onClick = {
+                            showDateDialog.value = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.CalendarMonth,
+                            contentDescription = "Choose Date",
+                            tint = Gray,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Phone Number",
+                    color = Gray,
+                    style = Typography.bodySmall,
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                BasicTextField(
+                    value = phoneNumber.value ?: userState.value.data?.phoneNumber ?: "",
+                    onValueChange = { phoneNumber.value = it },
+                    textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, Border, RoundedCornerShape(10.dp))
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                        .padding(horizontal = 14.dp, vertical = (12.5).dp),
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Main,
+                        contentColor = Color.White,
+                        disabledContentColor = Color.White.copy(alpha = 0.5f),
+                        disabledContainerColor = Main.copy(alpha = 0.5f),
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    onClick = {
+                        editProfileViewModel.updateUser(context, UpdateModel(
+                            fullName = fullName.value ?: userState.value.data?.fullName ?: "",
+                            username = username.value ?: userState.value.data?.username ?: "",
+                            phoneNumber = phoneNumber.value ?: userState.value.data?.phoneNumber
+                            ?: "",
+                            dateOfBirth = dateOfBirth.selectedDateMillis?.let {
+                                Date(it).toInstant().toString()
+                            } ?: userState.value.data?.dateOfBirth ?: "",
+                            imageUri = imageUri.value ?: Uri.EMPTY
+                        ))
+                    },
+                ) {
+                    Text(
+                        text = "Proceed",
+                        color = Color.White,
+                        style = Typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Phone Number",
-                color = Gray,
-                style = Typography.bodySmall,
-                textAlign = TextAlign.Left,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField(
-                value = phoneNumber.value ?: userState.value.data?.phoneNumber ?: "",
-                onValueChange = { phoneNumber.value = it },
-                textStyle = Typography.bodyMedium.merge(TextStyle(fontWeight = FontWeight.SemiBold)),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, Border, RoundedCornerShape(10.dp))
-                    .background(Color.White, RoundedCornerShape(10.dp))
-                    .padding(horizontal = 14.dp, vertical = (12.5).dp),
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Main,
-                    contentColor = Color.White,
-                    disabledContentColor = Color.White.copy(alpha = 0.5f),
-                    disabledContainerColor = Main.copy(alpha = 0.5f),
-                ),
-                shape = RoundedCornerShape(10.dp),
-                onClick = {
-                          editProfileViewModel.updateUser(context, UpdateModel(
-                                fullName = fullName.value ?: userState.value.data?.fullName ?: "",
-                                username = username.value ?: userState.value.data?.username ?: "",
-                                phoneNumber = phoneNumber.value ?: userState.value.data?.phoneNumber ?: "",
-                                dateOfBirth = dateOfBirth.selectedDateMillis?.let {
-                                    Date(it).toInstant().toString()
-                                } ?: userState.value.data?.dateOfBirth ?: "",
-                                imageUri = imageUri.value ?: Uri.EMPTY
-                          ))
-                },
-            ) {
-                Text(
-                    text = "Proceed",
-                    color = Color.White,
-                    style = Typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
 
-            if (showDateDialog.value) {
-                DateDialog(showDateDialog, dateOfBirth)
+                if (showDateDialog.value) {
+                    DateDialog(showDateDialog, dateOfBirth)
+                }
             }
-
-            if (showInfoDialog.value) {
-//                InfoDialog(, showInfoDialog, authController)
-            }
-        }
 
         }
     }

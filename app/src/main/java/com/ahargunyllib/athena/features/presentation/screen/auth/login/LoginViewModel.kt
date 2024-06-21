@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.presentation.screen.auth.login
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.remote.response.UserLoginResponse
@@ -29,7 +28,6 @@ class LoginViewModel @Inject constructor(
     val loginState = _loginState.asStateFlow()
 
     fun login(
-        context: Context,
         request: LoginModel
     ){
         viewModelScope.launch {
@@ -59,7 +57,7 @@ class LoginViewModel @Inject constructor(
             }
 
             // call api
-            repository.login(context, request).collectLatest {it ->
+            repository.login(request).collectLatest { it ->
                 when (it){
                     is Response.Success -> {
                         _loginState.update {

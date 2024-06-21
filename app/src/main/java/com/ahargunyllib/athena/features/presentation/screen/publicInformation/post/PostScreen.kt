@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.presentation.screen.publicInformation.post
 
-import android.net.Uri
 import android.text.format.DateFormat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,7 +52,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -62,7 +60,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ahargunyllib.athena.features.domain.model.CreateCommentModel
-import com.ahargunyllib.athena.features.domain.model.CreatePublicInformationModel
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
@@ -81,16 +78,14 @@ fun PostScreen(
 ) {
     val postViewModel: PostViewModel = hiltViewModel()
     val postState by postViewModel.postState.collectAsState()
-    val commentState by postViewModel.commentState.collectAsState()
 
     val content = remember { mutableStateOf("") }
 
-    val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
     val showBottomSheet = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        postViewModel.getPublicInformationById(context, publicInformationId)
+        postViewModel.getPublicInformationById(publicInformationId)
     }
 
     Scaffold(
@@ -424,7 +419,6 @@ fun PostScreen(
                     keyboardActions = KeyboardActions(
                         onSend = {
                             postViewModel.createComment(
-                                context,
                                 CreateCommentModel(
                                     content = content.value,
                                 ),
@@ -463,7 +457,6 @@ fun PostScreen(
                     modifier = Modifier.size(48.dp),
                     onClick = {
                         postViewModel.createComment(
-                            context,
                             CreateCommentModel(
                                 content = content.value,
                             ),

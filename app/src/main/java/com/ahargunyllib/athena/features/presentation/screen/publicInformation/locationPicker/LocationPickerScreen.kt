@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.publicInformation.locationPicker
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.location.Address
 import android.location.Geocoder
@@ -34,11 +35,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,38 +67,37 @@ import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("MissingPermission")
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
 fun LocationPickerScreen(
     parentController: NavController,
     latitude: Float,
     longitude: Float
 ) {
-    val cameraPositionState = mutableStateOf(
-        CameraPositionState(
-            position = CameraPosition(
-                LatLng(latitude.toDouble(), longitude.toDouble()),
-                16f,
-                0f,
-                0f
+    val cameraPositionState = remember {
+        mutableStateOf(
+            CameraPositionState(
+                position = CameraPosition(
+                    LatLng(latitude.toDouble(), longitude.toDouble()),
+                    16f,
+                    0f,
+                    0f
+                )
             )
         )
-    )
+    }
 
     val addressToFind = remember { mutableStateOf("") }
     val street = remember { mutableStateOf("") }
     val city = remember { mutableStateOf("") }
 
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
     val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(
             context as Activity
@@ -118,15 +115,15 @@ fun LocationPickerScreen(
             }
     }
 
-    LaunchedEffect(cameraPositionFlow.value) {
+    LaunchedEffect(cameraPositionFlow) {
 
         cameraPositionFlow
             .debounce(5000)
             .collectLatest { position ->
                 val geocoder = Geocoder(context)
                 geocoder.getFromLocation(
-                    cameraPositionState.value.position.target.latitude,
-                    cameraPositionState.value.position.target.longitude,
+                    position.target.latitude,
+                    position.target.longitude,
                     1
                 ) { addresses ->
                     if (addresses.isNotEmpty()) {

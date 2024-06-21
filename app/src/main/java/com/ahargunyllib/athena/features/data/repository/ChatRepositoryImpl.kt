@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.data.repository
 
-import android.content.Context
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.ChatRoomResponse
 import com.ahargunyllib.athena.features.data.remote.response.MessagesResponse
@@ -15,7 +14,7 @@ class ChatRepositoryImpl @Inject constructor(
     private val api: API,
     private val userRepository: UserRepository
 ) : ChatRepository {
-    override suspend fun getChatRooms(context: Context): Flow<Response<ChatRoomResponse>> {
+    override suspend fun getChatRooms(): Flow<Response<ChatRoomResponse>> {
         return flow {
             emit(Response.Loading())
 
@@ -48,7 +47,6 @@ class ChatRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMessages(
-        context: Context,
         chatRoomId: String
     ): Flow<Response<MessagesResponse>> {
         return flow {

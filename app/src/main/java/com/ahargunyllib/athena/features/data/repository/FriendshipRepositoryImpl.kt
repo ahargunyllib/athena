@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.data.repository
 
-import android.content.Context
 import android.util.Log
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.AcceptFriendResponse
@@ -21,7 +20,6 @@ class FriendshipRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository
 ): FriendshipRepository {
     override suspend fun getFriendList(
-        context: Context,
     ): Flow<Response<FriendListResponse>> {
         Log.i("FriendshipRepositoryImpl.getFriendList", "")
 
@@ -63,7 +61,6 @@ class FriendshipRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addFriendRequest(
-        context: Context,
         userId: String
     ): Flow<Response<AddFriendResponse>> {
         Log.i("FriendshipRepositoryImpl.addFriendRequest", "")
@@ -115,7 +112,6 @@ class FriendshipRepositoryImpl @Inject constructor(
     }
 
     override suspend fun removeFriend(
-        context: Context,
         userId: String
     ): Flow<Response<RemoveFriendResponse>> {
         Log.i("FriendshipRepositoryImpl.removeFriend", "")
@@ -159,7 +155,6 @@ class FriendshipRepositoryImpl @Inject constructor(
     }
 
     override suspend fun acceptFriend(
-        context: Context,
         userId: String
     ): Flow<Response<AcceptFriendResponse>> {
         Log.i("FriendshipRepositoryImpl.acceptFriend", "")
@@ -203,7 +198,6 @@ class FriendshipRepositoryImpl @Inject constructor(
     }
 
     override suspend fun rejectFriend(
-        context: Context,
         userId: String
     ): Flow<Response<RejectFriendResponse>> {
         Log.i("FriendshipRepositoryImpl.rejectFriend", "")
@@ -247,7 +241,6 @@ class FriendshipRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchUser(
-        context: Context,
         username: String
     ): Flow<Response<SearchUserResponse>> {
         Log.i("FriendshipRepositoryImpl.searchUser", "")

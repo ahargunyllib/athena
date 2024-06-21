@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.presentation.screen.publicInformation.post
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,10 +46,11 @@ class PostViewModel @Inject constructor(
     val postState = _postState.asStateFlow()
 
     private val _commentState = MutableStateFlow(CommentState())
+    @Suppress("unused")
     val commentState = _commentState.asStateFlow()
 
     private val _userState = MutableStateFlow(UserState())
-    val userState = _userState.asStateFlow()
+    private val userState = _userState.asStateFlow()
 
     init {
         getUser()
@@ -67,13 +67,13 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun getPublicInformationById(context: Context, publicInformationId: String) {
+    fun getPublicInformationById(publicInformationId: String) {
         viewModelScope.launch {
             _postState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            publicInformationRepository.getPublicInformationById(context, publicInformationId)
+            publicInformationRepository.getPublicInformationById(publicInformationId)
                 .collectLatest { response ->
                     when (response) {
                         is Response.Success -> {
@@ -102,7 +102,6 @@ class PostViewModel @Inject constructor(
     }
 
     fun createComment(
-        context: Context,
         createCommentModel: CreateCommentModel,
         publicInformationId: String
     ) {
@@ -112,7 +111,6 @@ class PostViewModel @Inject constructor(
             }
 
             publicInformationRepository.createComment(
-                context,
                 createCommentModel,
                 publicInformationId
             )

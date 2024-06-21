@@ -36,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -67,7 +66,6 @@ fun EditCredentialsScreen(
     val editCredentialsViewModel: EditCredentialsViewModel = hiltViewModel()
     val editCredentialsState = editCredentialsViewModel.editCredentialsState.collectAsState()
 
-    val context = LocalContext.current
     val showInfoDialog = remember { mutableStateOf(false) }
 
     val currentEmail = userState.value.data?.email ?: ""
@@ -237,7 +235,6 @@ fun EditCredentialsScreen(
                     shape = RoundedCornerShape(10.dp),
                     onClick = {
                         editCredentialsViewModel.updateUser(
-                            context,
                             CredentialsModel(
                                 email = newEmail.value,
                                 password = password.value,
