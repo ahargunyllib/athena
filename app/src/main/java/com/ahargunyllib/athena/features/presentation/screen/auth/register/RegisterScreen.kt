@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -78,7 +77,6 @@ fun RegisterScreen(
     val scrollState = rememberScrollState()
     val showDateDialog = remember { mutableStateOf(false) }
     val showInfoDialog = remember { mutableStateOf(false) }
-    val context = LocalContext.current
 
     val registerViewModel: RegisterViewModel = hiltViewModel()
     val registerState = registerViewModel.registerState.collectAsState()
@@ -302,7 +300,6 @@ fun RegisterScreen(
                 shape = RoundedCornerShape(10.dp),
                 onClick = {
                     registerViewModel.register(
-                        context,
                         RegisterModel(
                             fullName = fullName.value,
                             username = username.value,

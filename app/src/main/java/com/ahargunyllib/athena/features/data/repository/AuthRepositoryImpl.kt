@@ -1,9 +1,6 @@
 package com.ahargunyllib.athena.features.data.repository
 
-import android.content.ContentValues.TAG
-import android.content.Context
 import android.util.Log
-import com.ahargunyllib.athena.features.data.local.UserDatabase
 import com.ahargunyllib.athena.features.data.local.UserEntity
 import com.ahargunyllib.athena.features.data.remote.API
 import com.ahargunyllib.athena.features.data.remote.response.LoginResponse
@@ -16,7 +13,6 @@ import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import com.ahargunyllib.athena.features.utils.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -24,7 +20,6 @@ class AuthRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
 ) : AuthRepository {
     override suspend fun register(
-        context: Context,
         request: RegisterModel
     ): Flow<Response<RegisterResponse>> {
         Log.i("AuthRepositoryImpl.register", "request: $request")
@@ -72,7 +67,6 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun login(
-        context: Context,
         request: LoginModel
     ): Flow<Response<LoginResponse>> {
         Log.i("AuthRepositoryImpl.login", "request: $request")

@@ -1,7 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.profile.editProfile
 
 import android.content.Context
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.remote.response.UserRegisterResponse

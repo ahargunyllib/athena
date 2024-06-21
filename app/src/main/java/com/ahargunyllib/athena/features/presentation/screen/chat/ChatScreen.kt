@@ -1,10 +1,7 @@
 package com.ahargunyllib.athena.features.presentation.screen.chat
 
 import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -35,7 +31,6 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,22 +40,18 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -68,10 +59,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.data.remote.response.FriendshipStatus
 import com.ahargunyllib.athena.features.presentation.designSystem.Black
-import com.ahargunyllib.athena.features.presentation.designSystem.Border
 import com.ahargunyllib.athena.features.presentation.designSystem.Danger
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
@@ -80,15 +69,11 @@ import com.ahargunyllib.athena.features.presentation.designSystem.MainLightHover
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 import com.ahargunyllib.athena.features.presentation.screen.profile.ProfileViewModel
-import com.ahargunyllib.athena.features.utils.Response
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
-    parentController: NavController,
-    bottomNavController: NavController,
-    onChangeScreen: (Int) -> Unit
+    parentController: NavController
 ) {
     val usernameToFind = remember { mutableStateOf("") }
     val usernameToChat = remember { mutableStateOf("") }
@@ -106,20 +91,20 @@ fun ChatScreen(
     val userState = profileViewModel.userState.collectAsState()
 
     LaunchedEffect(Unit) {
-        chatViewModel.getChatRooms(context)
+        chatViewModel.getChatRooms()
     }
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(MainLight)
-            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = 92.dp),
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MainLight)
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .padding(start = 20.dp, end = 20.dp, top = 6.dp, bottom = 92.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -323,7 +308,7 @@ fun ChatScreen(
                 sheetMaxWidth = 608.dp,
             ) {
                 LaunchedEffect(Unit) {
-                    chatViewModel.getFriendList(context)
+                    chatViewModel.getFriendList()
                 }
 
                 Column(
@@ -349,7 +334,7 @@ fun ChatScreen(
                                     "usernameToFind: ${usernameToFind.value}"
                                 )
 
-                                chatViewModel.searchUser(context, usernameToFind.value)
+                                chatViewModel.searchUser(usernameToFind.value)
                             }
                         ),
                         modifier = Modifier
@@ -428,13 +413,12 @@ fun ChatScreen(
                                     IconButton(
                                         onClick = {
                                             chatViewModel.addFriend(
-                                                context,
                                                 users?.get(0)?.userId ?: ""
                                             )
 
                                             usernameToFind.value = ""
-                                            chatViewModel.getFriendList(context)
-                                            chatViewModel.getChatRooms(context)
+                                            chatViewModel.getFriendList()
+                                            chatViewModel.getChatRooms()
                                         },
                                         colors = IconButtonDefaults.iconButtonColors(
                                             contentColor = Color.White,
@@ -533,11 +517,10 @@ fun ChatScreen(
                                             IconButton(
                                                 onClick = {
                                                     chatViewModel.removeFriend(
-                                                        context,
                                                         friendList[index].userId
                                                     )
 
-                                                    chatViewModel.getFriendList(context)
+                                                    chatViewModel.getFriendList()
                                                 },
                                                 colors = IconButtonDefaults.iconButtonColors(
                                                     contentColor = Color.White,
@@ -617,11 +600,10 @@ fun ChatScreen(
                                                 IconButton(
                                                     onClick = {
                                                         chatViewModel.acceptFriend(
-                                                            context,
                                                             friendList[index].userId
                                                         )
 
-                                                        chatViewModel.getFriendList(context)
+                                                        chatViewModel.getFriendList()
                                                     },
                                                     colors = IconButtonDefaults.iconButtonColors(
                                                         contentColor = Color.White,
@@ -637,11 +619,10 @@ fun ChatScreen(
                                                 IconButton(
                                                     onClick = {
                                                         chatViewModel.rejectFriend(
-                                                            context,
                                                             friendList[index].userId
                                                         )
 
-                                                        chatViewModel.getFriendList(context)
+                                                        chatViewModel.getFriendList()
                                                     },
                                                     colors = IconButtonDefaults.iconButtonColors(
                                                         contentColor = Danger,

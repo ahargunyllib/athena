@@ -11,9 +11,9 @@ import com.ahargunyllib.athena.features.utils.Response
 import kotlinx.coroutines.flow.Flow
 
 interface PublicInformationRepository{
-    suspend fun getPublicInformation(context: Context): Flow<Response<PublicInformationsResponse>>
-    suspend fun getPublicInformationById(context: Context, publicInformationId: String): Flow<Response<PublicInformationResponse>>
+    suspend fun getPublicInformation(): Flow<Response<PublicInformationsResponse>>
+    suspend fun getPublicInformationById(publicInformationId: String): Flow<Response<PublicInformationResponse>>
     suspend fun createPublicInformation(context: Context, createPublicInformationModel: CreatePublicInformationModel): Flow<Response<UpdateLocationResponse>>
-    suspend fun createComment(context: Context, createCommentModel: CreateCommentModel, publicInformationId: String): Flow<Response<UpdateLocationResponse>>
-    suspend fun reportPublicInformation(context: Context, createReportModel: CreateReportModel, publicInformationId: String): Flow<Response<UpdateLocationResponse>>
+    suspend fun createComment(createCommentModel: CreateCommentModel, publicInformationId: String): Flow<Response<UpdateLocationResponse>>
+    suspend fun reportPublicInformation(createReportModel: CreateReportModel, publicInformationId: String): Flow<Response<UpdateLocationResponse>>
 }

@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +24,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,11 +37,9 @@ import androidx.navigation.compose.rememberNavController
 import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.presentation.designSystem.Gray
 import com.ahargunyllib.athena.features.presentation.designSystem.Main
-import com.ahargunyllib.athena.features.presentation.designSystem.MainLight
 import com.ahargunyllib.athena.features.presentation.designSystem.MainLightActive
 import com.ahargunyllib.athena.features.presentation.designSystem.Typography
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.AuthNavObj
-import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 
 sealed class OnBoardingPage(
     @DrawableRes
@@ -74,8 +69,7 @@ sealed class OnBoardingPage(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SplashScreen1(
-    authController: NavController = rememberNavController(),
-    parentController: NavController = rememberNavController()
+    authController: NavController = rememberNavController()
 ) {
     val onBoardingPages = listOf(
         OnBoardingPage.First,
@@ -91,7 +85,7 @@ fun SplashScreen1(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
-    ) { it ->
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

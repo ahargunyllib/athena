@@ -75,9 +75,9 @@ dependencies {
 
     // Architectural Components
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2")
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
 
     // Hilt
     // noinspection UseTomlInstead
@@ -107,12 +107,12 @@ dependencies {
 
     // Coroutines Lifecycle Scopes
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
     // LiveData
     // noinspection UseTomlInstead
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.2")
 
     // Navigation Component
     // noinspection UseTomlInstead
@@ -142,17 +142,17 @@ dependencies {
 
     // Icon Extended
     // noinspection UseTomlInstead
-    implementation("androidx.compose.material:material-icons-extended-android:1.6.7")
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.8")
 
     // Camera
     // noinspection UseTomlInstead
-    implementation("androidx.camera:camera-core:1.3.3")
+    implementation("androidx.camera:camera-core:1.3.4")
     // noinspection UseTomlInstead
-    implementation("androidx.camera:camera-camera2:1.3.3")
+    implementation("androidx.camera:camera-camera2:1.3.4")
     // noinspection UseTomlInstead
-    implementation("androidx.camera:camera-lifecycle:1.3.3")
+    implementation("androidx.camera:camera-lifecycle:1.3.4")
     // noinspection UseTomlInstead
-    implementation("androidx.camera:camera-view:1.3.3")
+    implementation("androidx.camera:camera-view:1.3.4")
 
     // Google Maps Location Services
     // noinspection UseTomlInstead

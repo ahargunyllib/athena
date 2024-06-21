@@ -1,7 +1,5 @@
 package com.ahargunyllib.athena.features.presentation.screen.auth.register
 
-import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,7 +29,6 @@ class RegisterViewModel @Inject constructor(
     val registerState = _registerState.asStateFlow()
 
     fun register(
-        context: Context,
         request: RegisterModel
     ) {
         viewModelScope.launch {
@@ -121,7 +118,7 @@ class RegisterViewModel @Inject constructor(
             }
 
             // call api
-            repository.register(context, request).collectLatest { it ->
+            repository.register(request).collectLatest { it ->
                 when (it) {
                     is Response.Success -> {
                         _registerState.update {

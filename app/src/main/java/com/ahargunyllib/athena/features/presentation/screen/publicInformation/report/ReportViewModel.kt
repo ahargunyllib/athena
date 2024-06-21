@@ -1,6 +1,5 @@
 package com.ahargunyllib.athena.features.presentation.screen.publicInformation.report
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.domain.model.CreateReportModel
@@ -28,7 +27,6 @@ class ReportViewModel @Inject constructor(
     val reportState = _reportState.asStateFlow()
 
     fun createReport(
-        context: Context,
         createReportModel: CreateReportModel,
         publicInformationId: String
     ) {
@@ -38,7 +36,6 @@ class ReportViewModel @Inject constructor(
             }
 
             publicInformationRepository.reportPublicInformation(
-                context,
                 createReportModel,
                 publicInformationId
             ).collectLatest { response ->

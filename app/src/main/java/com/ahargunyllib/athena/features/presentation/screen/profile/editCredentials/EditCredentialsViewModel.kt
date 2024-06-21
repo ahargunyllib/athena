@@ -1,12 +1,9 @@
 package com.ahargunyllib.athena.features.presentation.screen.profile.editCredentials
 
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ahargunyllib.athena.features.data.remote.response.UserRegisterResponse
 import com.ahargunyllib.athena.features.domain.model.CredentialsModel
-import com.ahargunyllib.athena.features.domain.model.UpdateModel
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import com.ahargunyllib.athena.features.presentation.screen.auth.register.RegisterState
 import com.ahargunyllib.athena.features.utils.Response
@@ -25,7 +22,7 @@ class EditCredentialsViewModel @Inject constructor(
     private val _editCredentialsState = MutableStateFlow(RegisterState())
     val editCredentialsState = _editCredentialsState.asStateFlow()
 
-    fun updateUser(context: Context, credentialsModel: CredentialsModel) {
+    fun updateUser(credentialsModel: CredentialsModel) {
         viewModelScope.launch {
             _editCredentialsState.update { state ->
                 state.copy(isLoading = true)
@@ -70,7 +67,7 @@ class EditCredentialsViewModel @Inject constructor(
                 return@launch
             }
 
-            userRepository.updateCredentials(context, credentialsModel).collectLatest {
+            userRepository.updateCredentials(credentialsModel).collectLatest {
                 when (it) {
                     is Response.Loading -> {
                         _editCredentialsState.update { state ->

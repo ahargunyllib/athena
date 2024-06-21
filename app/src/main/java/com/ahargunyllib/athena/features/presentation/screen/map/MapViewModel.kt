@@ -1,11 +1,8 @@
 package com.ahargunyllib.athena.features.presentation.screen.map
 
-import android.content.Context
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.remote.response.FriendLocationResponse
-import com.ahargunyllib.athena.features.data.remote.response.FriendsLocationResponse
 import com.ahargunyllib.athena.features.data.remote.response.MinPublicInformation
 import com.ahargunyllib.athena.features.domain.model.LocationModel
 import com.ahargunyllib.athena.features.domain.repository.LocationRepository
@@ -52,6 +49,7 @@ class MapViewModel @Inject constructor(
     val friendsLocationState = _friendsLocationState.asStateFlow()
 
     private val _updateLocationState = MutableStateFlow(UpdateLocationState())
+    @Suppress("unused")
     val updateLocationState = _updateLocationState.asStateFlow()
 
     private val _sosSendState = MutableStateFlow(SOSSendState())
@@ -60,13 +58,13 @@ class MapViewModel @Inject constructor(
     private val _publicInformationState = MutableStateFlow(PublicInformationState())
     val publicInformationState = _publicInformationState.asStateFlow()
 
-    fun getFriendsLocation(context: Context) {
+    fun getFriendsLocation() {
         viewModelScope.launch {
             _friendsLocationState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            locationRepository.getFriendsLocation(context).collectLatest { response ->
+            locationRepository.getFriendsLocation().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         _friendsLocationState.update { state ->
@@ -93,13 +91,13 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun updateLocation(context: Context, request: LocationModel) {
+    fun updateLocation(request: LocationModel) {
         viewModelScope.launch {
             _updateLocationState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            locationRepository.updateLocation(context, request).collectLatest { response ->
+            locationRepository.updateLocation(request).collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         _updateLocationState.update { state ->
@@ -127,13 +125,13 @@ class MapViewModel @Inject constructor(
 
     }
 
-    fun sendSOS(context: Context) {
+    fun sendSOS() {
         viewModelScope.launch {
             _sosSendState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            locationRepository.sos(context).collectLatest { response ->
+            locationRepository.sos().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         _sosSendState.update { state ->
@@ -161,13 +159,13 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun getPublicInformation(context: Context) {
+    fun getPublicInformation() {
         viewModelScope.launch {
             _publicInformationState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            publicInformationRepository.getPublicInformation(context).collectLatest { response ->
+            publicInformationRepository.getPublicInformation().collectLatest { response ->
                 when (response) {
                     is Response.Success -> {
                         _publicInformationState.update { state ->

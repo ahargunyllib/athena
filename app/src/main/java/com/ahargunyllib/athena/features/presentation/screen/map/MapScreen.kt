@@ -111,9 +111,7 @@ import java.util.concurrent.TimeUnit
 )
 @Composable
 fun MapScreen(
-    parentController: NavController = rememberNavController(),
-    bottomNavController: NavController = rememberNavController(),
-    onChangeScreen: (Int) -> Unit
+    parentController: NavController = rememberNavController()
 ) {
     val mapViewModel: MapViewModel = hiltViewModel()
     val friendsLocationState = mapViewModel.friendsLocationState.collectAsState()
@@ -163,23 +161,26 @@ fun MapScreen(
         )
     )
 
+
     val permissions = listOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION,
     )
 
     LaunchedEffect(Unit) {
-        mapViewModel.getFriendsLocation(context)
-        mapViewModel.getPublicInformation(context)
+        mapViewModel.getFriendsLocation()
+        mapViewModel.getPublicInformation()
     }
 
-    if (sosSendState.value.data != null) {
-        scope.launch {
-            snackbarHostState.showSnackbar(
-                message = "SOS sent. Please go to the safest area",
-                duration = SnackbarDuration.Long,
-                withDismissAction = true,
-            )
+    LaunchedEffect(sosSendState.value.data) {
+        if (sosSendState.value.data != null) {
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = "SOS sent. Please go to the safest area",
+                    duration = SnackbarDuration.Long,
+                    withDismissAction = true,
+                )
+            }
         }
     }
 
@@ -189,8 +190,7 @@ fun MapScreen(
         Box {
             GoogleMap(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 80.dp),
+                    .fillMaxSize(),
                 properties = MapProperties(
                     mapType = MapType.NORMAL,
                     isMyLocationEnabled = true,
@@ -205,8 +205,8 @@ fun MapScreen(
                 uiSettings = MapUiSettings(
                     myLocationButtonEnabled = false,
                     zoomControlsEnabled = false,
+                    compassEnabled = false,
                 ),
-                contentPadding = paddingValues
             ) {
                 friendsLocationState.value.data?.forEach { friendLocation ->
                     MarkerComposable(
@@ -367,10 +367,8 @@ fun MapScreen(
                                 CameraPositionState(
                                     position = CameraPosition(
                                         LatLng(
-                                            cameraPositionState.value.position?.target?.latitude?.toDouble()
-                                                ?: 0.0,
-                                            cameraPositionState.value.position?.target?.longitude?.toDouble()
-                                                ?: 0.0
+                                            cameraPositionState.value.position.target.latitude,
+                                            cameraPositionState.value.position.target.longitude
                                         ),
                                         cameraPositionState.value.position.zoom,
                                         0f,
@@ -412,7 +410,7 @@ fun MapScreen(
                     Spacer(modifier = Modifier.height(12.dp))
                     IconButton(
                         onClick = {
-                            mapViewModel.sendSOS(context)
+                            mapViewModel.sendSOS()
                         }, colors = IconButtonDefaults.iconButtonColors(
                             containerColor = Color.White, contentColor = Color.Red
                         ), modifier = Modifier.size(56.dp)
@@ -592,10 +590,10 @@ fun MapScreen(
                     )
 
                     // Update to the latest location
-                    mapViewModel.updateLocation(context, lastLocation)
+                    mapViewModel.updateLocation(lastLocation)
 
                     // Get friends location
-                    mapViewModel.getFriendsLocation(context)
+                    mapViewModel.getFriendsLocation()
                 }
             }
 
@@ -616,7 +614,6 @@ fun MapScreen(
         }
     }
 }
-
 
 
 /**

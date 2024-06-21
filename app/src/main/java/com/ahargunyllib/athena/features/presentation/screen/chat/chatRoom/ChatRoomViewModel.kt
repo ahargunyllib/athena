@@ -1,14 +1,9 @@
 package com.ahargunyllib.athena.features.presentation.screen.chat.chatRoom
 
-import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahargunyllib.athena.features.data.remote.response.Message
-import com.ahargunyllib.athena.features.data.remote.response.MessagesResponse
 import com.ahargunyllib.athena.features.data.remote.response.MinUserResponse
 import com.ahargunyllib.athena.features.data.remote.response.ProfileUserResponse
 import com.ahargunyllib.athena.features.domain.repository.ChatRepository
@@ -25,7 +20,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.net.URISyntaxException
-import java.time.LocalDate
 import javax.inject.Inject
 
 data class MessagesState(
@@ -41,6 +35,7 @@ data class FriendState(
 
     )
 
+@Suppress("unused")
 @HiltViewModel
 class ChatRoomViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
@@ -99,13 +94,13 @@ class ChatRoomViewModel @Inject constructor(
         }
     }
 
-    fun getMessages(context: Context, chatRoomId: String) {
+    fun getMessages(chatRoomId: String) {
         viewModelScope.launch {
             _messagesState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            chatRepository.getMessages(context, chatRoomId).collectLatest { response ->
+            chatRepository.getMessages(chatRoomId).collectLatest { response ->
                 when (response) {
                     is Response.Loading -> {
                         _messagesState.update { state ->
@@ -132,13 +127,13 @@ class ChatRoomViewModel @Inject constructor(
         }
     }
 
-    fun getFriend(context: Context, userId: String) {
+    fun getFriend(userId: String) {
         viewModelScope.launch {
             _friendState.update { state ->
                 state.copy(isLoading = true)
             }
 
-            userRepository.getUser(context, userId).collectLatest { response ->
+            userRepository.getUser(userId).collectLatest { response ->
                 when (response) {
                     is Response.Loading -> {
                         _friendState.update { state ->

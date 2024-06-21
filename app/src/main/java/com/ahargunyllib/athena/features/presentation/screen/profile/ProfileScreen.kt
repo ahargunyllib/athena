@@ -37,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -65,8 +64,6 @@ fun ProfileScreen(
     val isSharingLocation = remember { mutableStateOf(userState.value.data?.isSharingLocation) }
     val isPauseAll = remember { mutableStateOf(userState.value.data?.isPauseAll) }
     val isShowNotification = remember { mutableStateOf(userState.value.data?.isShowNotification) }
-
-    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier
@@ -201,7 +198,9 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isSharingLocation.value ?: userState.value.data?.isSharingLocation == true) {
+                        if ((isSharingLocation.value
+                                ?: userState.value.data?.isSharingLocation) == true
+                        ) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",
@@ -274,7 +273,7 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isPauseAll.value ?: userState.value.data?.isPauseAll == true) {
+                        if ((isPauseAll.value ?: userState.value.data?.isPauseAll) == true) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",
@@ -327,7 +326,9 @@ fun ProfileScreen(
                         uncheckedTrackColor = Gray.copy(alpha = 0.5f)
                     ),
                     thumbContent = {
-                        if (isShowNotification.value ?: userState.value.data?.isShowNotification == true) {
+                        if ((isShowNotification.value
+                                ?: userState.value.data?.isShowNotification) == true
+                        ) {
                             Icon(
                                 Icons.Outlined.Check,
                                 contentDescription = "Checked",

@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -17,7 +15,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ahargunyllib.athena.R
 import com.ahargunyllib.athena.features.presentation.navigation.navObject.AuthNavObj
-import com.ahargunyllib.athena.features.presentation.navigation.navObject.ParentNavObj
 import kotlinx.coroutines.delay
 
 
@@ -32,7 +29,7 @@ fun SplashScreen0(
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
-    ) { it ->
+    ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(it),
             verticalArrangement = Arrangement.Center,

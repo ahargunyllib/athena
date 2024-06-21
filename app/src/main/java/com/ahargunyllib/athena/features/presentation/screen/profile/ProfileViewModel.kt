@@ -3,7 +3,6 @@ package com.ahargunyllib.athena.features.presentation.screen.profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ahargunyllib.athena.features.data.local.UserEntity
 import com.ahargunyllib.athena.features.domain.repository.UserRepository
 import com.ahargunyllib.athena.features.presentation.screen.home.UserState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,12 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-data class UserState(
-    val isLoading: Boolean = true,
-    val message: String = "",
-    val data: UserEntity? = null
-)
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
