@@ -1,5 +1,6 @@
 package com.ahargunyllib.athena.features.presentation.screen.auth.splashScreen
 
+import android.app.Activity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -28,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ahargunyllib.athena.R
@@ -80,6 +83,8 @@ fun SplashScreen1(
     val pagerState = rememberPagerState {
         3
     }
+
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier
@@ -144,9 +149,21 @@ fun SplashScreen1(
             if (pagerState.currentPage == onBoardingPages.size - 1) {
                 Button(
                     onClick = {
-                        authController.navigate(
-                            AuthNavObj.LoginNavObj.route
+                        val permissions = arrayOf(
+                            android.Manifest.permission.ACCESS_FINE_LOCATION,
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION
                         )
+
+                        // Request permissions
+                        ActivityCompat.requestPermissions(context as Activity, permissions, 0)
+
+                        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == 0) {
+                            authController.navigate(
+                                AuthNavObj.LoginNavObj.route
+                            )
+                        } else {
+                            // Permission denied
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
