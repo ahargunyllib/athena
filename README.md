@@ -11,7 +11,7 @@ List all the technology we use to build the system in this project
 - Kotlin
 - Jetpack Compose
 - MVVM Architecture
-- Navigation Components
+- Navigation Compose
 - Dependency Injection with Dagger Hilt
 - Google Maps SDK
 - Retrofit
